@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import useToggle from "../hooks/useToggle";
 const menuLinks = [
     {
         title: "Home",
@@ -16,9 +18,20 @@ const menuLinks = [
     },
 ];
 const Header = () => {
+
     const navigate = useNavigate()
-    const [toggle, handleToggle] = useState("")
+    const { toggle, handleToggle } = useToggle();
     const [showMenu, setShowMenu] = useState(false);
+    const [hasLogin, setHasLogin] = useState(false);
+    let user = localStorage.getItem('user-info')
+    useEffect(() => {
+        if (user) {
+            console.log(user);
+            setHasLogin(true);
+        } else {
+            setHasLogin(false);
+        }
+    }, []);
     const handleNavigate = () => {
         window.scrollTo(0, 0);
     };
@@ -46,6 +59,11 @@ const Header = () => {
         window.scrollTo(0, 0);
         setShowMenu(false)
     }
+    const handleSignOut = () => {
+        localStorage.clear();
+        navigate('/')
+    };
+
     return (
         <div className='relative '>
             <div className='fixed top-0 left-0 w-full z-10 isolate header bg-white'>
@@ -75,12 +93,24 @@ const Header = () => {
                             </span>
                         </div>
                         <div className='max-md:hidden'>
-                            <NavLink
-                                to={'/login'}
-                                className='rounded-md bg-primary bg-opacity-90 text-white py-3 px-6'
-                            >
-                                Login
-                            </NavLink>
+                            {user && hasLogin ? (
+                                <div className="relative" onClick={() => handleToggle()}>
+                                    <div className="flex items-center text-white">
+                                        <img
+                                            src="/user.png"
+                                            alt=""
+                                            className="w-10 h-10 rounded-full object-cover"
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <NavLink
+                                    to={"/login"}
+                                    className="rounded-md bg-primary bg-opacity-80 text-white py-3 px-6"
+                                >
+                                    Login
+                                </NavLink>
+                            )}
                         </div>
                         {/* Menu under tabler */}
                         <div className='md:hidden'>
@@ -95,6 +125,19 @@ const Header = () => {
                                     <img src="/cancel.png" alt="" className='w-10 h-10 absolute top-5 left-5'
                                         onClick={() => setShowMenu(false)}
                                     />
+                                    {user && (
+                                        <div className="flex gap-x-5 items-center justify-center mb-10">
+                                            <img
+                                                src="/user.png"
+                                                alt=""
+                                                className="w-10 h-10 rounded-full"
+                                            />
+                                            <div className="flex flex-col gap-2">
+                                                <p className="text-sm text-text3">Hi Welcome!</p>
+                                                <p className="font-medium">{user.displayName}</p>
+                                            </div>
+                                        </div>
+                                    )}
                                     <div className='flex flex-col gap-5 items-center'>
                                         {menuLinks.map((item) => (
                                             <NavLink
@@ -107,12 +150,22 @@ const Header = () => {
                                             </NavLink>
 
                                         ))}
-                                        <button
-                                            onClick={() => navigate("/login")}
-                                            className="max-w-[200px] w-full h-10 rounded-md bg-primary text-white"
-                                        >
-                                            Login
-                                        </button>
+                                        {user ? (
+                                            <NavLink
+                                                to={"/signup"}
+                                                onClick={handleSignOut}
+                                                className="max-w-[200px] w-full h-10 rounded-md bg-primary text-white flex items-center justify-center"
+                                            >
+                                                Logout
+                                            </NavLink>
+                                        ) : (
+                                            <button
+                                                onClick={() => navigate("/login")}
+                                                className="max-w-[200px] w-full h-10 rounded-md bg-primary text-white"
+                                            >
+                                                Login
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
 
@@ -122,6 +175,25 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+            {toggle && (
+                <div className="max-md:hidden z-50 isolute fixed top-[75px] right-5 bg-white text-black rounded-lg p-5 flex flex-col gap-5">
+                    <p className="flex gap-2">
+                        <span>Username:</span>{" "}
+                        <span className="font-medium">User</span>
+                    </p>
+                    <p className="flex gap-2">
+                        <span>Email:</span>
+                        <span className="font-medium">Email</span>
+                    </p>
+                    <NavLink
+                        to={"/signup"}
+                        onClick={handleSignOut}
+                        className="rounded-md bg-primary text-white flex items-center justify-center gap-x-2 py-3 px-4"
+                    >
+                        Logout
+                    </NavLink>
+                </div>
+            )}
         </div >
     )
 }

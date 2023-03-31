@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from './store/configureStore';
+import { AuthProvider } from './context/AuthProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -18,7 +19,10 @@ root.render(
         closeOnClick
         pauseOnHover={false}
       />
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+      
   </Provider>
     
   </BrowserRouter>

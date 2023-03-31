@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Input from '../components/input/Input'
@@ -8,42 +8,67 @@ import InputPassword from '../components/input/InputPassword';
 import ButtonLoading from '../components/button/ButtonLoading';
 import { toast } from "react-toastify";
 import axios from 'axios'
-const schema = yup.object({
-    email: yup
-        .string()
-        .email("Invalid email address")
-        .required("This field is required"),
-    password: yup
-        .string()
-        .required("This field is required")
-        .min(8, "Password must be 8 characters"),
-});
+import useAuth from '../services/useAuth';
+import { postLogin } from '../apis/auth/auth.api';
+import IconEye from '../icons/IconEye';
+import IconEyeSlash from '../icons/IconEyeSlash';
+
 
 const Login = () => {
+
+    const { setAuth } = useAuth()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
     const navigate = useNavigate()
-    const {
-        control,
-        handleSubmit,
-        formState: { errors, isValid, isSubmitting },
-    } = useForm({
-        resolver: yupResolver(schema),
-        mode: "onSubmit",
-    });
-    const onSubmit = async (values) => {
-        if (!isValid) return;
-        try {
-            // const response = await axios.post(`https://dummyjson.com/auth/login`)
-            toast.success("Successfully logged in!");
-            navigate("/");
-            // return response;
-        } catch (error) {
-            toast.error("Your email or password is incorrect");
-        }
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, 4000);
-        });
+    // "email": "eve.holt@reqres.in",
+    // "password": "cityslicka"
+    useEffect(() => {
+        if (localStorage.getItem('user-info'))
+            navigate('/')
+    }, [])
+    // "email": "tgtg28082002@gmail.com",
+    // "password": "Thang2002"
+    const [valueAuth, setValueAuth] = useState({
+        email: "tgtg28082002@gmail.com",
+        password: "Thang2002",
+    })
+    async function handleSubmitLogin() {
+        // console.warn(email, password)
+        // let item = { email, password }
+        // let res = await fetch("https://reqres.in/api/login", {
+        //     method: 'POST',
+        //     headers: {
+        //         "Content-Type": "application/json; charset=utf-8",
+        //         "Accept": 'application/json'
+        //     },
+        //     body: JSON.stringify(item)
+        // })
+        // if (res.status === 200) {
+        //     res = await res.json();
+        //     localStorage.setItem("user-info", JSON.stringify(res))
+        //     navigate('/')
+        //     toast.success("Successfully logged in!");
+
+        // } else {
+        //     toast.error('Fail')
+        // }
+        postLogin(valueAuth).then((data) => {
+            console.log(data.data)
+            if (data) {
+                const accessToken = data?.data?.token
+                setAuth({ accessToken })
+                localStorage.setItem('accessToken', accessToken)
+                navigate('/', { replace: true })
+            }
+        })
+    }
+    const [showPass, setShowPass] = useState(false);
+    const showPassword = () => {
+        setShowPass(true);
+    };
+    const hiddenPassword = () => {
+        setShowPass(false);
     };
     return (
         <div className='w-full h-screen bg-primary bg-opacity-10'>
@@ -60,24 +85,54 @@ const Login = () => {
                         </NavLink>
                     </p>
                     <h3 className="text-2xl font-semibold mb-5 z-10">Sign In</h3>
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-[90%] z-10">
-                        <Input
-                            text={"Email*"}
-                            type="text"
-                            name="email"
-                            placeholder="example@gmail.com"
-                            control={control}
-                            error={errors.email?.message}
-                        ></Input>
-                        <InputPassword
-                            name="password"
-                            error={errors.password?.message}
-                            control={control}
-                        ></InputPassword>
-                        <ButtonLoading disable={isSubmitting} loading={isSubmitting}>
-                            Sign In
-                        </ButtonLoading>
-                    </form>
+                    <div
+
+                        autoComplete="off"
+                        className="flex flex-col gap-5 w-[90%] z-10"
+                    >
+                        <div className="flex flex-col gap-2 text-sm font-medium items-start z-10">
+                            <label htmlFor="Email" className='font-bold '>Email</label>
+                            <input type="email"
+                                id="Email"
+                                value={valueAuth.email}
+                                placeholder="example@gmail.com"
+                                className={`w-full border rounded-md px-5 py-3 text-sm `}
+                                onChange={(e) => setEmail(e.target.value)}
+
+                            />
+
+                        </div>
+                        <div className="flex flex-col gap-2 text-sm font-medium items-start z-10    ">
+                            <label htmlFor="password" className="font-bold" >Password*</label>
+                            <div className="w-full border rounded-md px-5 py-3 pr-12 relative bg-white">
+                                <input
+                                    type={showPass ? "text" : "password"}
+                                    value={valueAuth.password}
+                                    placeholder="Enter your password"
+                                    className="w-full bg-transparent text-sm "
+                                    onChange={(e) => setPassword(e.target.value)}
+                                // {...field}
+                                />
+                                {showPass ? (
+                                    <IconEye
+                                        className={`absolute top-2/4 right-5 -translate-y-2/4 cursor-pointer`}
+                                        onClick={hiddenPassword}
+                                    ></IconEye>
+                                ) : (
+                                    <IconEyeSlash
+                                        className={`absolute top-2/4 right-5 -translate-y-2/4 cursor-pointer`}
+                                        onClick={showPassword}
+                                    ></IconEyeSlash>
+                                )}
+                            </div>
+                        </div>
+                        <input
+                            className="mt-2 w-full h-[45px] text-white bg-primary rounded-md font-semibold "
+                            type={'submit'}
+                            value="Sign In"
+                            onClick={handleSubmitLogin}
+                        />
+                    </div>
                     <div className="absolute -left-[250px] -bottom-[150px] w-[450px] h-[450px] -z-10">
                         <svg
                             id="10015.io"

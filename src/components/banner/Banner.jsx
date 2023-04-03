@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import IconRight from "../../icons/IconRight";
 
-const imgSlice = ["/slice1.png", "/slice2.png", "/slice3.png"];
+// const imgSlice = ["/slice1.png", "/slice2.png", "/slice3.png"];
 
 const Banner = () => {
   const [sliceShow, setSliceShow] = useState("");
@@ -13,7 +13,7 @@ const Banner = () => {
     <div className="w-full h-[500px] lg:h-[700px] md:h-[500px] bg-blueDark bg-opacity-90 mb-10 z-0">
       <div className="container h-full relative md:grid md:grid-cols-2 max-md:flex items-center z-0 p-5 pt-[80px] banner ">
         <h3 className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 lg:text-[400px] md:text-[250px] sm:text-[200px] text-[100px] font-semibold text-blueDark text-opacity-30">
-          NIKE
+          TECH
         </h3>
         <div className="py-5 sm:pl-10 w-full h-full flex flex-col gap-y-[10px] items-start lg:justify-center justify-start text-white z-10">
           <h3 className="lg:text-[80px] md:text-[50px] text-[45px] font-semibold leading-[1.2] lg:mb-5">
@@ -35,7 +35,7 @@ const Banner = () => {
           </NavLink>
         </div>
         <div className="py-5 sm:pr-10 w-full h-full flex flex-col lg:gap-y-[60px] md:gap-y-[40px] gap-y-[15px] items-end justify-center max-md:justify-end text-white z-10">
-          {imgSlice.map((item, index) => (
+          {/* {imgSlice.map((item, index) => (
             <img
               src={item}
               key={index}
@@ -43,14 +43,14 @@ const Banner = () => {
               className="lg:w-[100px] lg:h-[100px] md:w-[80px] md:h-[80px] sm:w-[70px] sm:h-[70px] w-[65px] h-[65px] cursor-pointer hover:scale-110 transition-all"
               onClick={handleSlice}
             />
-          ))}
+          ))} */}
         </div>
         <div className="absolute inset-0 flex items-center justify-center w-full banner-product">
-          <img
+          {/* <img
             src={sliceShow === "" ? "/slice1.png" : sliceShow}
             alt=""
             className="lg:w-[32%] md:w-[35%] sm:w-[40%] w-[60%] z-10 transition-all banner-product-img"
-          />
+          /> */}
         </div>
         <div className="circle-effect"></div>
       </div>

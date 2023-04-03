@@ -70,24 +70,24 @@ const HomePage = () => {
                 <div className="relative flex justify-center gap-x-5">
                     <div className="flex flex-col gap-y-5 translate-y-5">
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            <img src="/slice1.png" alt="" className="w-full h-full" />
+                            {/* <img src="/slice1.png" alt="" className="w-full h-full" /> */}
                         </div>
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            <img src="/slice2.png" alt="" className="w-full h-full" />
+                            {/* <img src="/slice2.png" alt="" className="w-full h-full" /> */}
                         </div>
                     </div>
                     <div className="flex flex-col gap-y-5">
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            <img src="/slice3.png" alt="" className="w-full h-full" />
+                            {/* <img src="/slice3.png" alt="" className="w-full h-full" /> */}
                         </div>
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            <img src="/slice4.png" alt="" className="w-full h-full" />
+                            {/* <img src="/slice4.png" alt="" className="w-full h-full" /> */}
                         </div>
                     </div>
                 </div>
                 <div>
                     <h3 className="font-bold lg:text-[35px] md:text-[30px] text-[30px] mb-10 max-md:text-center">
-                        BEST FEATURE IN SHOES
+                        BEST FEATURE IN DEVICES
                     </h3>
                     <div className="max-md:w-[95%] mx-auto flex flex-col gap-y-8">
                         <div className="flex gap-x-5 items-center">

@@ -30,38 +30,38 @@ const Login = () => {
     // "email": "tgtg28082002@gmail.com",
     // "password": "Thang2002"
     const [valueAuth, setValueAuth] = useState({
-        email: "tgtg28082002@gmail.com",
-        password: "Thang2002",
+        "email": "eve.holt@reqres.in",
+        "password": "cityslicka"
     })
     async function handleSubmitLogin() {
-        // console.warn(email, password)
-        // let item = { email, password }
-        // let res = await fetch("https://reqres.in/api/login", {
-        //     method: 'POST',
-        //     headers: {
-        //         "Content-Type": "application/json; charset=utf-8",
-        //         "Accept": 'application/json'
-        //     },
-        //     body: JSON.stringify(item)
-        // })
-        // if (res.status === 200) {
-        //     res = await res.json();
-        //     localStorage.setItem("user-info", JSON.stringify(res))
-        //     navigate('/')
-        //     toast.success("Successfully logged in!");
-
-        // } else {
-        //     toast.error('Fail')
-        // }
-        postLogin(valueAuth).then((data) => {
-            console.log(data.data)
-            if (data) {
-                const accessToken = data?.data?.token
-                setAuth({ accessToken })
-                localStorage.setItem('accessToken', accessToken)
-                navigate('/', { replace: true })
-            }
+        console.warn(email, password)
+        let item = { email, password }
+        let res = await fetch("https://reqres.in/api/login", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": 'application/json'
+            },
+            body: JSON.stringify(item)
         })
+        if (res.status === 200) {
+            res = await res.json();
+            localStorage.setItem("user-info", JSON.stringify(res))
+            navigate('/')
+            toast.success("Successfully logged in!");
+
+        } else {
+            toast.error('Fail')
+        }
+        // postLogin(valueAuth).then((data) => {
+        //     console.log(data.data)
+        //     if (data) {
+        //         const accessToken = data?.data?.token
+        //         setAuth({ accessToken })
+        //         localStorage.setItem('accessToken', accessToken)
+        //         navigate('/', { replace: true })
+        //     }
+        // })
     }
     const [showPass, setShowPass] = useState(false);
     const showPassword = () => {

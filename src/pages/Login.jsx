@@ -16,7 +16,7 @@ import IconEyeSlash from '../icons/IconEyeSlash';
 
 const Login = () => {
 
-    const { setAuth } = useAuth()
+    // const { setAuth } = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -29,14 +29,18 @@ const Login = () => {
     }, [])
     // "email": "tgtg28082002@gmail.com",
     // "password": "Thang2002"
-    const [valueAuth, setValueAuth] = useState({
-        "email": "eve.holt@reqres.in",
-        "password": "cityslicka"
-    })
+    // const [valueAuth, setValueAuth] = useState({
+    //     email: "eve.holt@reqres.in",
+    //     password: "cityslicka"
+    // })
     async function handleSubmitLogin() {
-        console.warn(email, password)
+        console.log('a');
+        // "email": "eve.holt@reqres.in",
+        // "password": "cityslicka"
         let item = { email, password }
+        console.log(item);
         let res = await fetch("https://reqres.in/api/login", {
+
             method: 'POST',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -44,6 +48,7 @@ const Login = () => {
             },
             body: JSON.stringify(item)
         })
+        console.log('a');
         if (res.status === 200) {
             res = await res.json();
             localStorage.setItem("user-info", JSON.stringify(res))
@@ -94,7 +99,7 @@ const Login = () => {
                             <label htmlFor="Email" className='font-bold '>Email</label>
                             <input type="email"
                                 id="Email"
-                                value={valueAuth.email}
+                                // value={valueAuth.email}
                                 placeholder="example@gmail.com"
                                 className={`w-full border rounded-md px-5 py-3 text-sm `}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -107,7 +112,7 @@ const Login = () => {
                             <div className="w-full border rounded-md px-5 py-3 pr-12 relative bg-white">
                                 <input
                                     type={showPass ? "text" : "password"}
-                                    value={valueAuth.password}
+                                    // value={valueAuth.password}
                                     placeholder="Enter your password"
                                     className="w-full bg-transparent text-sm "
                                     onChange={(e) => setPassword(e.target.value)}

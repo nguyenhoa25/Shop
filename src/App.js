@@ -9,6 +9,7 @@ import ShoppingCart from './pages/ShoppingCart';
 import CheckOut from './pages/CheckOut';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Admin from './admin/Admin';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         </Route>
         <Route path='/login' element={<Login></Login>}/>
         <Route path='/signup' element={<SignUp></SignUp>}/>
+        <Route path='/admin' element= {<Admin></Admin>}/>
       </Routes>
     </div>
   );

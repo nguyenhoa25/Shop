@@ -34,7 +34,7 @@ const Login = () => {
     //     password: "cityslicka"
     // })
     async function handleSubmitLogin() {
-        console.log('a');
+
         // "email": "eve.holt@reqres.in",
         // "password": "cityslicka"
         let item = { email, password }

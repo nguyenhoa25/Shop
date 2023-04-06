@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --yellow: linear-gradient(180deg, #F8D49A -146.42%, #FAD79D -46.42%);
     --orange: #fca61f;
     --black: #242d49;
@@ -10,9 +10,8 @@
     --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
     --activeItem: #f799a354;
   }
-  
-  .Admin {
-    /* padding: 0.5rem 3.5rem; */
+   */
+  /* .Admin {
     color: var(--black);
     background: linear-gradient(
       106.37deg,
@@ -49,4 +48,4 @@
     .AdminGlass{
       grid-template-columns: 1fr;
     } 
-  }
+  } */

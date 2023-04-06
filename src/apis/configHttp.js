@@ -17,7 +17,7 @@ export const axiosPrivate = axios.create({
 })
 
 const refresh = async () => {
-  const response = await axiosPrivate.get('/auth/refresh-token')
+  const response = await axiosPrivate.get('/api/v1/auth/refresh-token')
   return response.data.accessToken
 }
 

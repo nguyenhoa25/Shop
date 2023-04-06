@@ -12,9 +12,12 @@ const HomePage = () => {
     useEffect(() => {
         document.title = "Shop";
     }, []);
+    //https://dummyjson.com/products
+    //http://20.210.177.113:3333/api/v1/products
     const { data } = useSWR("https://dummyjson.com/products", fetcher);
     if (!data) return;
     const products = data.products;
+    console.log(data);
     const settings = {
         speed: 500,
         slidesToShow: 4,
@@ -58,9 +61,9 @@ const HomePage = () => {
                 <div className="relative sm:mb-10 mb-[80px]">
                     <Heading>Popular Products</Heading>
                     <Slider {...settings} className="slider-product-home">
-                        {products.length > 0 &&
+                        {products &&
                             products
-                                .slice(0, 20)
+                                .slice(0, 5)
                                 .map((item) => <Card key={item.id} item={item}></Card>)}
                     </Slider>
                 </div>
@@ -70,18 +73,18 @@ const HomePage = () => {
                 <div className="relative flex justify-center gap-x-5">
                     <div className="flex flex-col gap-y-5 translate-y-5">
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            {/* <img src="/slice1.png" alt="" className="w-full h-full" /> */}
+                            <img src="/ss1.png" alt="" className="w-full h-full" />
                         </div>
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            {/* <img src="/slice2.png" alt="" className="w-full h-full" /> */}
+                            <img src="/ss2.png" alt="" className="w-full h-full" />
                         </div>
                     </div>
                     <div className="flex flex-col gap-y-5">
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            {/* <img src="/slice3.png" alt="" className="w-full h-full" /> */}
+                            <img src="/ss3.png" alt="" className="w-full h-full" />
                         </div>
                         <div className="w-[160px] h-[160px] rounded-xl p-5 bg-white bg-opacity-20 card-intro">
-                            {/* <img src="/slice4.png" alt="" className="w-full h-full" /> */}
+                            <img src="/ss4.png" alt="" className="w-full h-full" />
                         </div>
                     </div>
                 </div>
@@ -93,20 +96,18 @@ const HomePage = () => {
                         <div className="flex gap-x-5 items-center">
                             <img src="/ranking.png" alt="" className="w-[40px] h-[40px]" />
                             <div className="flex flex-col gap-y-2">
-                                <h4 className="font-semibold">Best Quatity shoes</h4>
+                                <h4 className="font-semibold">Best Quatity Mobliephone</h4>
                                 <p className="text-sm lg:w-[70%] w-full">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed
-                                    quis mollitia, consequatur iste officia
+                                    Is a popular phone line available globally with proven quality over time and development process.
                                 </p>
                             </div>
                         </div>
                         <div className="flex gap-x-5 items-center">
                             <img src="/clock.png" alt="" className="w-[40px] h-[40px]" />
                             <div className="flex flex-col gap-y-2">
-                                <h4 className="font-semibold">Long Lasting Shoes</h4>
+                                <h4 className="font-semibold">Long Lasting Mobliephone</h4>
                                 <p className="text-sm lg:w-[70%] w-full">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed
-                                    quis mollitia, consequatur iste officia
+                                    With excellent quality, the product is a durable device with time, keeping up with the trends of the times.
                                 </p>
                             </div>
                         </div>

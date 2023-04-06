@@ -23,7 +23,7 @@ const Header = () => {
     const { toggle, handleToggle } = useToggle();
     const [showMenu, setShowMenu] = useState(false);
     const [hasLogin, setHasLogin] = useState(false);
-    let user = localStorage.getItem('user-info')
+    let user = localStorage.getItem('accessToken')
     useEffect(() => {
         if (user) {
             console.log(user);
@@ -69,7 +69,7 @@ const Header = () => {
             <div className='fixed top-0 left-0 w-full z-10 isolate header bg-white'>
                 <div className='container mx-auto px-5 max-sm:px-3 py-3 md:grid md:grid-cols-3 flex items-center justify-between w-full h-[70px] max-sm:bg-white max-sm:shadow-lg'>
                     <NavLink to="/" className={"w-[50px] h-[50px]"}>
-                        <img src="/qora.png" alt="" className='w-full h-full' />
+                        <img src="/qora.png" alt="" className='' />
                     </NavLink>
                     <div className='max-md:hidden flex gap-x-2 items-center justify-center'>
                         {menuLinks.map((link) => (
@@ -152,7 +152,7 @@ const Header = () => {
                                         ))}
                                         {user ? (
                                             <NavLink
-                                                to={"/signup"}
+                                                to={"/login"}
                                                 onClick={handleSignOut}
                                                 className="max-w-[200px] w-full h-10 rounded-md bg-primary text-white flex items-center justify-center"
                                             >
@@ -186,7 +186,7 @@ const Header = () => {
                         <span className="font-medium">Email</span>
                     </p>
                     <NavLink
-                        to={"/signup"}
+                        to={"/login"}
                         onClick={handleSignOut}
                         className="rounded-md bg-primary text-white flex items-center justify-center gap-x-2 py-3 px-4"
                     >

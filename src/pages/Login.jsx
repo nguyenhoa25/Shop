@@ -16,7 +16,7 @@ import IconEyeSlash from '../icons/IconEyeSlash';
 
 const Login = () => {
 
-    // const { setAuth } = useAuth()
+    const { setAuth } = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -30,43 +30,22 @@ const Login = () => {
     // "email": "tgtg28082002@gmail.com",
     // "password": "Thang2002"
     // const [valueAuth, setValueAuth] = useState({
-    //     email: "eve.holt@reqres.in",
-    //     password: "cityslicka"
+    //     email: `${email}`,
+    //     password: `${password}`
     // })
     async function handleSubmitLogin() {
+        // http://20.210.177.113:3333/api/v1/auth/login
 
-        // "email": "eve.holt@reqres.in",
-        // "password": "cityslicka"
-        let item = { email, password }
-        console.log(item);
-        let res = await fetch("https://reqres.in/api/login", {
-
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Accept": 'application/json'
-            },
-            body: JSON.stringify(item)
+        postLogin(email, password).then((data) => {
+            console.log(data.data)
+            console.log(email + password);
+            if (data) {
+                const accessToken = data?.data?.token
+                setAuth({ accessToken })
+                localStorage.setItem('accessToken', accessToken)
+                navigate('/', { replace: true })
+            }
         })
-        console.log('a');
-        if (res.status === 200) {
-            res = await res.json();
-            localStorage.setItem("user-info", JSON.stringify(res))
-            navigate('/')
-            toast.success("Successfully logged in!");
-
-        } else {
-            toast.error('Fail')
-        }
-        // postLogin(valueAuth).then((data) => {
-        //     console.log(data.data)
-        //     if (data) {
-        //         const accessToken = data?.data?.token
-        //         setAuth({ accessToken })
-        //         localStorage.setItem('accessToken', accessToken)
-        //         navigate('/', { replace: true })
-        //     }
-        // })
     }
     const [showPass, setShowPass] = useState(false);
     const showPassword = () => {

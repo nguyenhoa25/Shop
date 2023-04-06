@@ -7,6 +7,7 @@ import IconCart from "../../icons/IconCart";
 import Button from "../button/Button";
 
 const Card = ({ item }) => {
+    // const { id, name, category, thumbnail, price, rating, medias } = item;
     const { id, title, category, thumbnail, price, rating } = item;
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -21,6 +22,12 @@ const Card = ({ item }) => {
                 image: thumbnail,
                 price,
             })
+            // cartActions.addItem({
+            //     id,
+            //     productName: name,
+            //     image: medias.path,
+            //     price,
+            // })
         );
         toast.success("Product added successfully");
     };
@@ -28,6 +35,7 @@ const Card = ({ item }) => {
         <div className="overflow-hidden transition-all card w-full h-full rounded-lg">
             <div className="relative w-full h-[300px] overflow-hidden p-2">
                 <img
+                    // src={medias.path}
                     src={thumbnail}
                     alt=""
                     className="object-cover w-full h-full mb-4 rounded-lg transition-all cursor-pointer"

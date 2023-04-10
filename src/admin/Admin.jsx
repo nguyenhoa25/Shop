@@ -9,7 +9,7 @@ const Admin = () => {
         <div className='Admin'>
             <div className="AdminGlass">
                 <Sidebar></Sidebar>
-                {/* <MainDash></MainDash> */}
+                <MainDash></MainDash>
                 <RightSide></RightSide>
             </div>
         </div>

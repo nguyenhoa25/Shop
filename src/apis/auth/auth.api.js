@@ -1,8 +1,15 @@
 import axios from 'axios'
 import { axiosPrivate } from '../configHttp'
+import { toast } from 'react-toastify'
 
 export const postLogin = async (email,password) => {
-  // const resData = axiosPrivate.post('https://reqres.in/api/login', {email,password})
-  const resData = axios.post('https://reqres.in/api/login', {email,password})
-  return (await resData).data
+  try{
+    const resData = axiosPrivate.post('/api/v1/auth/login', {email,password})
+    console.log((await resData).headers);
+    return (await resData).data
+  }catch(error){
+    toast.error("Fail")
+  }
 }
+
+

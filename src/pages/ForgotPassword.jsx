@@ -1,32 +1,21 @@
-import React, { useState } from 'react'
-import { useForm } from "react-hook-form";
+import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { toast } from "react-toastify";
-import ButtonLoading from "../components/button/ButtonLoading";
+import ButtonLoading from '../components/button/ButtonLoading'
 import * as yup from "yup";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../components/input/Input";
-import InputPassword from "../components/input/InputPassword";
 import axios from 'axios';
 
-
 const schema = yup.object({
-
-    name: yup
-        .string()
-        .max(10, "Name cannot exceed 10 characters")
-        .required("Please enter your name"),
     email: yup
         .string()
         .email("Invalid email address")
         .required("Please enter your email address"),
-    password: yup
-        .string()
-        .required("Please enter your password")
-        .min(8, "Your password must be at least 8 characters"),
 });
-const SignUp = () => {
 
+const ForgotPassword = () => {
     const navigate = useNavigate()
     const {
         control,
@@ -38,13 +27,8 @@ const SignUp = () => {
     });
     const onSubmit = async (values) => {
         try {
-            const res = axios.post('http://103.90.227.133:8082/api/v1/auth/signup', {
-                name: values.name,
-                email: values.email,
-                password: values.password,
-            })
-            toast.success("Create Account Successfully!");
-            navigate("/login");
+            const res = await axios.post(`http://103.90.227.133:8082/api/v1/auth/forgot-password?email=${values.email}`)
+            toast.success("Succes and check email!");
         } catch (error) {
             toast.error("Something went wrong!");
         }
@@ -56,12 +40,12 @@ const SignUp = () => {
         });
     };
     return (
-        <div className='login-box w-full h-screen bg-primary bg-opacity-10'>
+        <div className='forgot-password w-full h-screen bg-primary bg-opacity-10'>
             <div className='container w-full h-full px-5 sm:py-12 py-[70px] relative flex flex-col justify-center items-center'>
                 <NavLink to="/" className={"absolute top-5 left-5"}>
                     <img src="/qora.png" alt="" className="w-[50px] h-[50px]" />
                 </NavLink>
-                <div className="login max-w-[500px] w-full h-auto mx-auto sm:p-10 p-5 flex flex-col items-center relative shadow-2xl rounded-lg">
+                <div className="forgot-password max-w-[500px] w-full h-auto mx-auto sm:p-10 p-5 flex flex-col items-center relative shadow-2xl rounded-lg">
                     <h4 className="text-xl font-semibold mb-2 z-10 text-center">
                         Welcome To Our Website!
                     </h4>
@@ -71,20 +55,12 @@ const SignUp = () => {
                             Sign In
                         </NavLink>
                     </p>
-                    <h3 className="text-2xl font-semibold mb-2 z-10">Sign Up</h3>
+                    <h3 className="text-2xl font-semibold mb-2 z-10">Forgot Password</h3>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         autoComplete="off"
                         className="flex flex-col gap-3 w-[90%] z-10"
                     >
-                        <Input
-                            text={"Name*"}
-                            type="text"
-                            name="name"
-                            placeholder="John Doe"
-                            control={control}
-                            error={errors.name?.message}
-                        ></Input>
                         <Input
                             text="Email*"
                             type="text"
@@ -93,13 +69,9 @@ const SignUp = () => {
                             control={control}
                             error={errors.email?.message}
                         ></Input>
-                        <InputPassword
-                            name="password"
-                            error={errors.password?.message}
-                            control={control}
-                        ></InputPassword>
+
                         <ButtonLoading disable={isSubmitting} loading={isSubmitting}>
-                            Create an Accounts
+                            Confirm Email
                         </ButtonLoading>
                     </form>
                     <div className="absolute -left-[250px] -bottom-[150px] w-[450px] h-[450px] -z-10">
@@ -134,4 +106,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default ForgotPassword

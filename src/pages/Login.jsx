@@ -36,23 +36,22 @@ const Login = () => {
     async function handleSubmitLogin() {
         // http://20.210.177.113:3333/api/v1/auth/login
         //
-        if(email == "admin" && password == "admin"){
-            navigate('/admin')
-        }else{
-            postLogin(email, password).then((data) => {
-                console.log(data.data)
-                console.log(email + password);
-                
-                if (data) {
-                    const accessToken = data?.data?.token
-                    setAuth({ accessToken })
-                    localStorage.setItem('accessToken', accessToken)
-                    navigate('/', { replace: true })
-                }
-            })
-        }
-        }
-        
+        postLogin(email, password).then((data) => {
+            console.log(data)
+            // console.log(email + password);
+            if (data) {
+                const accessToken = data?.data?.token
+                setAuth({ accessToken })
+                localStorage.setItem('accessToken', accessToken)
+                navigate('/', { replace: true })
+                toast.success("Login success !")
+            }
+
+
+        })
+
+    }
+
     const [showPass, setShowPass] = useState(false);
     const showPassword = () => {
         setShowPass(true);
@@ -90,7 +89,6 @@ const Login = () => {
                                 onChange={(e) => setEmail(e.target.value)}
 
                             />
-
                         </div>
                         <div className="flex flex-col gap-2 text-sm font-medium items-start z-10    ">
                             <label htmlFor="password" className="font-bold" >Password*</label>
@@ -122,6 +120,10 @@ const Login = () => {
                             value="Sign In"
                             onClick={handleSubmitLogin}
                         />
+                        <NavLink to={'/forgot-password'}>
+                            <div className='text-right mb-5 text-sm font-medium z-10 cursor-pointer text-primary'>Forgot password ?</div>
+                        </NavLink>
+
                     </div>
                     <div className="absolute -left-[250px] -bottom-[150px] w-[450px] h-[450px] -z-10">
                         <svg
@@ -136,6 +138,7 @@ const Login = () => {
                             />
                         </svg>
                     </div>
+
                     <div className="absolute -top-[150px] -right-[250px]  w-[450px] h-[450px] -z-10">
                         <svg
                             id="10015.io"

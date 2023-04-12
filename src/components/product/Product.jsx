@@ -10,7 +10,7 @@ import useDebounce from "../../hooks/useDebounce";
 import IconLeft from "../../icons/IconLeft";
 
 const itemsPerPage = 12;
-const Product = () => {
+const  Product = () => {
   const [skip, setSkip] = useState(0);
   const [getCategories, setGetCategories] = useState("");
   const [categories, setCategories] = useState(getCategories);

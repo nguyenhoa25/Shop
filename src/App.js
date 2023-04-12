@@ -10,6 +10,7 @@ import CheckOut from './pages/CheckOut';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Admin from './admin/Admin';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/login' element={<Login></Login>}/>
         <Route path='/signup' element={<SignUp></SignUp>}/>
         <Route path='/admin' element= {<Admin></Admin>}/>
+        <Route path='/forgot-password' element={<ForgotPassword></ForgotPassword>}></Route>
       </Routes>
     </div>
   );

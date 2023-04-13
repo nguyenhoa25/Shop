@@ -42,6 +42,7 @@ const Login = () => {
             if (data) {
                 const accessToken = data?.data?.token
                 setAuth({ accessToken })
+                // console.log(accessToken);
                 localStorage.setItem('accessToken', accessToken)
                 navigate('/', { replace: true })
                 toast.success("Login success !")

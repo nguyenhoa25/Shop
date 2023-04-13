@@ -10,7 +10,7 @@ import Countdown from '../components/countdown/Countdown';
 import Card from '../components/card/Card';
 const HomePage = () => {
     useEffect(() => {
-        document.title = "Shop";
+        document.title = "ShopLinkKien";
     }, []);
     //https://dummyjson.com/products
     //http://20.210.177.113:3333/api/v1/products
@@ -61,9 +61,9 @@ const HomePage = () => {
                 <div className="relative sm:mb-10 mb-[80px]">
                     <Heading>Popular Products</Heading>
                     <Slider {...settings} className="slider-product-home">
-                        {products &&
+                        {products.length &&
                             products
-                                .slice(0, 5)
+                                .slice(0, 20)
                                 .map((item) => <Card key={item.id} item={item}></Card>)}
                     </Slider>
                 </div>
@@ -116,8 +116,8 @@ const HomePage = () => {
                             <div className="flex flex-col gap-y-2">
                                 <h4 className="font-semibold">Best Quality Price</h4>
                                 <p className="text-sm lg:w-[70%] w-full">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed
-                                    quis mollitia, consequatur iste officia
+                                    Lorem ipsum dolor sit, amet consectetur
+                                    adipisicing elit. Sedquis mollitia, consequatur iste officia
                                 </p>
                             </div>
                         </div>

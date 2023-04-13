@@ -25,8 +25,9 @@ const ShoppingCart = () => {
   //     }
   //   });
   // }, []);
+  let user = localStorage.getItem('accessToken')
   const handleCheckout = () => {
-    if (!hasLogin) {
+    if (!user) {
       navigate("/login");
       toast.warn("You need to login before paying", {
         theme: "colored",

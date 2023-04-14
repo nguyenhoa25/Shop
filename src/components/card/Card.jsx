@@ -25,7 +25,7 @@ const Card = ({ item }) => {
         toast.success("Product added successfully");
     };
     return (
-        <div className="overflow-hidden transition-all card w-full h-full rounded-lg">
+        <div className="shadow-lg shadow-indigo-500/50 overflow-hidden transition-all card w-full h-full rounded-lg hover:scale-105 ">
             <div className="relative w-full h-[300px] overflow-hidden p-2">
                 <img
                     src={thumbnail}

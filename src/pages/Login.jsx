@@ -12,7 +12,7 @@ import useAuth from '../services/useAuth';
 import { postLogin } from '../apis/auth/auth.api';
 import IconEye from '../icons/IconEye';
 import IconEyeSlash from '../icons/IconEyeSlash';
-
+import storageService from '../services/storage.service';
 
 const Login = () => {
 
@@ -23,10 +23,10 @@ const Login = () => {
     const navigate = useNavigate()
     // "email": "eve.holt@reqres.in",
     // "password": "cityslicka"
-    useEffect(() => {
-        if (localStorage.getItem('user-info'))
-            navigate('/')
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.getItem('user-info'))
+    //         navigate('/')
+    // }, [])
     // "email": "tgtg28082002@gmail.com",
     // "password": "Thang2002"
     // const [valueAuth, setValueAuth] = useState({
@@ -37,20 +37,29 @@ const Login = () => {
         // http://20.210.177.113:3333/api/v1/auth/login
         //
         postLogin(email, password).then((data) => {
-            console.log(data)
+            console.log(data.data.user.id)
+            console.log(data.data.user)
             // console.log(email + password);
-            if (data) {
+            if (data.data.user.role.id == 1) {
+                navigate('/admin', { replace: true })
+                toast.success("Login success !")
+                const accessToken = data?.data?.token
+                setAuth({ accessToken })
+
+                localStorage.setItem('accessToken', accessToken)
+            }
+            else if (data) {
                 const accessToken = data?.data?.token
                 setAuth({ accessToken })
                 // console.log(accessToken);
                 localStorage.setItem('accessToken', accessToken)
                 navigate('/', { replace: true })
                 toast.success("Login success !")
+                storageService.set('id', data.data.user.id)
+                storageService.set('email', data.data.user.email)
+                storageService.set('name', data.data.user.fullName)
             }
-
-
         })
-
     }
 
     const [showPass, setShowPass] = useState(false);

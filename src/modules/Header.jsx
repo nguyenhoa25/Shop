@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useToggle from "../hooks/useToggle";
+import axios from 'axios';
 const menuLinks = [
     {
         title: "Home",
@@ -17,13 +18,27 @@ const menuLinks = [
         path: "/cart",
     },
 ];
+
 const Header = () => {
 
     const navigate = useNavigate()
     const { toggle, handleToggle } = useToggle();
     const [showMenu, setShowMenu] = useState(false);
     const [hasLogin, setHasLogin] = useState(false);
+    const [customer, setCustomer] = useState([]);
     let user = localStorage.getItem('accessToken')
+    let id = localStorage.getItem('tumi_id')
+    let email = localStorage.getItem('tumi_email')
+    let fullName = localStorage.getItem('tumi_name')
+    useEffect(() => {
+        async function fetchData() {
+            const result = await axios.get(`http://103.90.227.133:8082/api/v1/users/${id}`);
+            setCustomer(result.data);
+            console.log(result.data.data);
+        }
+        fetchData();
+    }, []);
+
     useEffect(() => {
         if (user) {
             console.log(user);
@@ -179,12 +194,19 @@ const Header = () => {
                 <div className="max-md:hidden z-50 isolute fixed top-[75px] right-5 bg-white text-black rounded-lg p-5 flex flex-col gap-5">
                     <p className="flex gap-2">
                         <span>Username:</span>{" "}
-                        <span className="font-medium">User</span>
+                        <span className="font-medium">{fullName}</span>
                     </p>
                     <p className="flex gap-2">
                         <span>Email:</span>
-                        <span className="font-medium">Email</span>
+                        <span className="font-medium">{email}</span>
                     </p>
+                    <NavLink
+                        to={"/user/:id"}
+                        // onClick={handleSignOut}
+                        className="rounded-md bg-primary text-white flex items-center justify-center gap-x-2 py-3 px-4"
+                    >
+                        Personal Page
+                    </NavLink>
                     <NavLink
                         to={"/login"}
                         onClick={handleSignOut}

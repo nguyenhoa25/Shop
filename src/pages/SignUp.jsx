@@ -39,7 +39,7 @@ const SignUp = () => {
     const onSubmit = async (values) => {
         try {
             const res = axios.post('http://103.90.227.133:8082/api/v1/auth/signup', {
-                name: values.name,
+                fullName: values.name,
                 email: values.email,
                 password: values.password,
             })

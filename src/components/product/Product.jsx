@@ -8,9 +8,10 @@ import Sort from "../sort/Sort";
 import IconSearch from "../../icons/IconSearch";
 import useDebounce from "../../hooks/useDebounce";
 import IconLeft from "../../icons/IconLeft";
-
+import { API } from "../../commom/const.api";
+import axios from "axios";
 const itemsPerPage = 12;
-const  Product = () => {
+const Product = () => {
   const [skip, setSkip] = useState(0);
   const [getCategories, setGetCategories] = useState("");
   const [categories, setCategories] = useState(getCategories);
@@ -22,34 +23,65 @@ const  Product = () => {
   const [sortPrice, setSortPrice] = useState(false);
   const [sortPriceReverse, setSortPriceReverse] = useState(false);
   const [search, setSearch] = useState("");
+  const [count, setCount] = useState(12);
+  const [post , setPost] = useState([]);
   const handleSearchProduct = (e) => {
     setSearch(e.target.value);
+    console.log(e.target.value);
   };
+  
   const searchDebounce = useDebounce(search, 800);
+  const getPost = async () => {
+    try {
+        const data = await axios.post(
+            `${API}/products/search?category=${categories}&page=${skip}&size=12`
+        );
+        // console.log(data.data.data.meta.total);
+        setPost(data.data.data)
+        console.log(categories);
+    } catch (error) {
+        console.log(error);
+    }
+};
+useEffect(() => {
+    getPost()
+}, [categories, searchDebounce, skip])
   const [url, setUrl] = useState(
     `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
+    // `${API}/products?page=${skip}&size=12`
   );
   const { data } = useSWR(url, fetcher);
   useEffect(() => {
     if (searchDebounce) {
-      setUrl(`https://dummyjson.com/products/search?q=${searchDebounce}`);
+      // setUrl(`https://dummyjson.com/products/search?q=${searchDebounce}`);
+      setUrl(`${API}/products/search?name=${searchDebounce}`);
+      console.log(searchDebounce);
     } else {
       setUrl(
-        `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
+        // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
+        `${API}/products?page=${skip}&size=12`
+        // `${API}/categories?limit=12&skip=${skip}`
       );
+      // console.log(categories);
     }
   }, [categories, searchDebounce, skip]);
+   
   if (!data) return;
-  const product = data?.products;
-
+  // const product = data?.products;
+  // const product = data?.data.productOutputs;
+  const product = post.productOutputs;
+  console.log(data.data.meta.total);
   //calc count page
-  const pageCount = Math.ceil(data?.total / itemsPerPage);
-
+  const pageCount = Math.ceil(data.data.meta.total / itemsPerPage);
+  // console.log(post.meta.total + 'a');
+  //  
   const handleGetProductCategories = (e) => {
     setGetCategories(e.target.textContent);
-    setCategories(`/category/${e.target.textContent}`);
+    console.log(e.target.textContent);
+    setCategories(`${e.target.textContent}`);
     setShowCategorySelect(e.target.textContent);
     setSkip(0);
+    
   };
 
   const handleResetSort = () => {
@@ -164,11 +196,15 @@ const  Product = () => {
             </div>
             <div className="font-medium text-dark text-sm flex items-center">
               {search
-                ? "" 
-                : `Showing ${data?.products?.length === 0 ? "0" : skip + 1} - ${skip + itemsPerPage >= data.total
-                  ? data.total
-                  : skip + itemsPerPage
-                } of ${data.total} results`}
+                ? ""
+                : `Showing ${post.productOutputs.length === 0 ? "0" : (skip)*count} - ${(skip)*count + itemsPerPage >= post.meta.total
+                  ? post.meta.total
+                  : (skip)*count + itemsPerPage
+                } of ${post.meta.total} results`}
+                {/* {console.log(data?.data.productOutputs.length)} */}
+                {/* {console.log(data.data.meta.total)} */}
+                {/* {console.log(skip)}
+                {console.log(count * skip)} */}
             </div>
           </div>
         </div>
@@ -209,12 +245,12 @@ const  Product = () => {
               })
               .map((item) => <Card key={item.id} item={item}></Card>)}
         </div>
-        {data?.products?.length === 0 && (
+        {data?.data.productOutputs.length === 0 && (
           <h3 className="text-center text-[30px] text-dark font-semibold">
             No Products Found
           </h3>
         )}
-        {data.total < 12 || search ? (
+        {data.data.meta.total < 12 || search ? (
           ""
         ) : (
           <div className="w-full rounded-[30px] mt-10 flex items-center justify-between gap-x-3 relative showPageCount">
@@ -225,7 +261,7 @@ const  Product = () => {
               </span>
             </div>
             <div className="flex gap-x-5">
-              {skip <= 0 ? (
+              {skip < 1 ? (
                 <span
                   aria-disabled
                   className={`cursor-not-allowed opacity-50 ${styleArrow}`}
@@ -236,7 +272,8 @@ const  Product = () => {
                 <span
                   className={`cursor-pointer ${styleArrow}`}
                   onClick={() => {
-                    setSkip(skip - itemsPerPage);
+                    setSkip(skip - 1);
+                
                     document.documentElement.scrollTop = 0;
                   }}
                 >
@@ -244,7 +281,7 @@ const  Product = () => {
                 </span>
               )}
 
-              {skip >= data.total - itemsPerPage ? (
+              {skip >= data.data.meta.total- itemsPerPage ? (
                 <span
                   aria-disabled
                   className={`cursor-not-allowed opacity-50 ${styleArrow}`}
@@ -255,7 +292,8 @@ const  Product = () => {
                 <span
                   className={`cursor-pointer ${styleArrow}`}
                   onClick={() => {
-                    setSkip(skip + itemsPerPage);
+                    setSkip(skip + 1);
+                 
                     document.documentElement.scrollTop = 0;
                   }}
                 >

@@ -3,9 +3,11 @@ import useSWR from "swr";
 import { fetcher } from "../../apiConfig";
 import IconMinus from "../../icons/IconMinus";
 import IconPlus from "../../icons/IconPlus";
-
+import { API } from "../../commom/const.api";
 const CategoryShop = ({ onClick = () => { } }) => {
-  const { data } = useSWR(`https://dummyjson.com/products/categories`, fetcher);
+  // const { data } = useSWR(`https://dummyjson.com/products/categories`, fetcher);
+  const { data } = useSWR(`${API}/categories`, fetcher);
+  
   const [showCategories, setShowCategories] = useState(false);
 
   const handleShowCategories = () => {
@@ -26,9 +28,9 @@ const CategoryShop = ({ onClick = () => { } }) => {
         </span>
       </h3>
       {showCategories && (
-        <div className="absolute left-0 border w-full h-[400px] overflow-y-scroll mt-1 rounded-md bg-white z-10 py-3 categories-item">
-          {data.length > 0 &&
-            data.map((category, index) => (
+        <div className="absolute left-0 border w-full h-auto overflow-y-scroll mt-1 rounded-md bg-white z-10 py-3 categories-item">
+          {data.data.length > 0 &&
+            data.data.map((category, index) => (
               <p
                 className="flex gap-x-2 text-sm items-center py-2 px-5 text-dark font-medium cursor-pointer hover:text-primary"
                 key={index}

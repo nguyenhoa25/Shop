@@ -8,16 +8,19 @@ import { fetcher } from "../apiConfig";
 import useSWR from "swr";
 import Countdown from '../components/countdown/Countdown';
 import Card from '../components/card/Card';
+import { API } from '../commom/const.api';
 const HomePage = () => {
     useEffect(() => {
         document.title = "ShopLinkKien";
     }, []);
     //https://dummyjson.com/products
-    //http://20.210.177.113:3333/api/v1/products
-    const { data } = useSWR("https://dummyjson.com/products", fetcher);
+    //http://103.90.227.133:8082/api/v1/products
+    // const { data } = useSWR("https://dummyjson.com/products", fetcher);
+    const { data } = useSWR(`${API}/products`, fetcher);
     if (!data) return;
-    const products = data.products;
-    console.log(data);
+
+    const products = data.data.productOutputs;
+    console.log(data.data.productOutputs);
     const settings = {
         speed: 500,
         slidesToShow: 4,

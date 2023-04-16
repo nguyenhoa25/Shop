@@ -9,19 +9,19 @@ import Heading from "../components/heading/Heading";
 import SimilarProduct from "../components/product/SimilarProduct";
 import IconCheck from "../icons/IconCheck";
 import { toast } from "react-toastify";
-
+import { API } from "../commom/const.api";
 const icons = ["/instagram.png", "/twitter.png", "/slack.png", "/meta.png"];
 const ProductDetailPage = () => {
     const { slug } = useParams();
     const dispatch = useDispatch();
-    const { data } = useSWR(`https://dummyjson.com/products/${slug}`, fetcher);
+    const { data } = useSWR(`${API}/products/${slug}`, fetcher);
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [data]);
     if (!data) return;
     const {
         id,
-        title,
+        name,
         description,
         price,
         rating,
@@ -32,7 +32,7 @@ const ProductDetailPage = () => {
         brand,
     } = data;
 
-    const categories = category.charAt(0).toUpperCase() + category.slice(1);
+     const categories = category;
     const remainder = Math.round(5 % rating);
     const rate = Math.floor(rating);
 
@@ -47,7 +47,7 @@ const ProductDetailPage = () => {
         dispatch(
             cartActions.addItem({
                 id,
-                productName: title,
+                productName: name,
                 image: thumbnail,
                 price,
             })
@@ -63,7 +63,7 @@ const ProductDetailPage = () => {
                     <div className="flex gap-x-2 items-center justify-center mt-5">
                         <p>Home</p>
                         <span>/</span>
-                        <p>{title}</p>
+                        <p>{name}</p>
                     </div>
                 </div>
                 <div className="grid sm:grid-cols-2 sm:gap-10 gap-[50px] justify-center w-full py-10 sm:px-[100px] px-5">
@@ -83,7 +83,7 @@ const ProductDetailPage = () => {
                     </div>
                     <div className="flex-1 flex flex-col gap-y-5 items-start">
                         <h3 className="lg:text-[35px] md:text-[30px] sm:text-[28px] max-sm:text-[35px] font-semibold">
-                            {title}
+                            {name}
                         </h3>
                         <div className="flex gap-x-3 items-center">
                             <div className="flex gap-x-[2px]">

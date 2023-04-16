@@ -43,7 +43,9 @@ const SignUp = () => {
                 email: values.email,
                 password: values.password,
             })
-            toast.success("Create Account Successfully!");
+
+            toast.success("Create Account Successfully !");
+            toast.success("Please check email!");
             navigate("/login");
         } catch (error) {
             toast.error("Something went wrong!");

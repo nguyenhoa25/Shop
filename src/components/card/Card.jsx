@@ -7,7 +7,7 @@ import IconCart from "../../icons/IconCart";
 import Button from "../button/Button";
 
 const Card = ({ item }) => {
-    const { id, title, category, thumbnail, price, rating } = item;
+    const { id, name, category, thumbnail, price, rating } = item;
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const remainder = Math.round(5 % rating);
@@ -17,7 +17,7 @@ const Card = ({ item }) => {
         dispatch(
             cartActions.addItem({
                 id,
-                productName: title,
+                productName: name,
                 image: thumbnail,
                 price,
             })
@@ -63,7 +63,7 @@ const Card = ({ item }) => {
                             ))}
                     </div>
                 </div>
-                <h3 className="font-semibold w-full h-[2rem] flex items-center">{title}</h3>
+                <h3 className="font-semibold w-full h-[2rem] flex items-center">{name}</h3>
                 <div className="flex justify-between items-center gap-x-5">
                     <p className="font-semibold text-error text-lg">${price}</p>
                     <div className="flex gap-x-2">

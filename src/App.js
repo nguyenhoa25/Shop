@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Admin from './admin/Admin';
 import ForgotPassword from './pages/ForgotPassword';
+import User from './pages/User';
 
 function App() {
   return (
@@ -22,11 +23,13 @@ function App() {
           <Route path='product/:slug' element={<ProductDetailPage></ProductDetailPage>}/>
           <Route path='/cart' element={<ShoppingCart></ShoppingCart>}/>
           <Route path='/checkout' element={<CheckOut></CheckOut>}/>
+          <Route path='/user/:id' element={<User></User>}></Route>
         </Route>
         <Route path='/login' element={<Login></Login>}/>
         <Route path='/signup' element={<SignUp></SignUp>}/>
         <Route path='/admin' element= {<Admin></Admin>}/>
         <Route path='/forgot-password' element={<ForgotPassword></ForgotPassword>}></Route>
+        
       </Routes>
     </div>
   );

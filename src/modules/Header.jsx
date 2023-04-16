@@ -34,7 +34,7 @@ const Header = () => {
         async function fetchData() {
             const result = await axios.get(`http://103.90.227.133:8082/api/v1/users/${id}`);
             setCustomer(result.data);
-            console.log(result.data.data);
+            // console.log(result.data.data);
         }
         fetchData();
     }, []);
@@ -166,13 +166,21 @@ const Header = () => {
 
                                         ))}
                                         {user ? (
+                                            <>
+                                            <NavLink
+                                                to={`/user/${id}`}
+                                                className="rounded-md bg-primary text-white flex items-center justify-center gap-x-2 py-3 px-4"
+                                            >
+                                                Personal Page
+                                            </NavLink>
                                             <NavLink
                                                 to={"/login"}
                                                 onClick={handleSignOut}
                                                 className="max-w-[200px] w-full h-10 rounded-md bg-primary text-white flex items-center justify-center"
                                             >
                                                 Logout
-                                            </NavLink>
+                                            </NavLink></>
+                                            
                                         ) : (
                                             <button
                                                 onClick={() => navigate("/login")}
@@ -201,8 +209,7 @@ const Header = () => {
                         <span className="font-medium">{email}</span>
                     </p>
                     <NavLink
-                        to={"/user/:id"}
-                        // onClick={handleSignOut}
+                        to={`/user/${id}`}
                         className="rounded-md bg-primary text-white flex items-center justify-center gap-x-2 py-3 px-4"
                     >
                         Personal Page

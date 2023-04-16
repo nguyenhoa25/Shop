@@ -24,30 +24,30 @@ const Product = () => {
   const [sortPriceReverse, setSortPriceReverse] = useState(false);
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(12);
-  const [post , setPost] = useState([]);
+  const [post, setPost] = useState([]);
   const handleSearchProduct = (e) => {
     setSearch(e.target.value);
     console.log(e.target.value);
   };
-  
+
   const searchDebounce = useDebounce(search, 800);
-  const getPost = async () => {
-    try {
-        const data = await axios.post(
-            `${API}/products/search?category=${categories}&page=${skip}&size=12`
-        );
-        // console.log(data.data.data.meta.total);
-        setPost(data.data.data)
-        console.log(categories);
-    } catch (error) {
-        console.log(error);
-    }
-};
-useEffect(() => {
-    getPost()
-}, [categories, searchDebounce, skip])
+  // const getPost = async () => {
+  //   try {
+  //     const data = await axios.post(
+  //       `${API}/products/search?category=${categories}&page=${skip}&size=12`
+  //     );
+  //     // console.log(data.data.data.meta.total);
+  //     setPost(data.data.data)
+  //     console.log(categories);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getPost()
+  // }, [categories, searchDebounce, skip])
   const [url, setUrl] = useState(
-    `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
+    // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
     // `${API}/products?page=${skip}&size=12`
   );
   const { data } = useSWR(url, fetcher);
@@ -65,14 +65,17 @@ useEffect(() => {
       // console.log(categories);
     }
   }, [categories, searchDebounce, skip]);
-   
   if (!data) return;
   // const product = data?.products;
-  // const product = data?.data.productOutputs;
-  const product = post.productOutputs;
-  console.log(data.data.meta.total);
+
+  const product = data?.data.productOutputs;
+  // const product = post.productOutputs;
+  // console.log(post);
+  // console.log(post.meta);
+  // console.log(post.productOutputs);
   //calc count page
-  const pageCount = Math.ceil(data.data.meta.total / itemsPerPage);
+  // const pageCount = Math.ceil(data.data.meta.total / itemsPerPage);
+  const pageCount = Math.ceil(data?.data.meta.total / itemsPerPage);
   // console.log(post.meta.total + 'a');
   //  
   const handleGetProductCategories = (e) => {
@@ -81,7 +84,7 @@ useEffect(() => {
     setCategories(`${e.target.textContent}`);
     setShowCategorySelect(e.target.textContent);
     setSkip(0);
-    
+
   };
 
   const handleResetSort = () => {
@@ -197,13 +200,13 @@ useEffect(() => {
             <div className="font-medium text-dark text-sm flex items-center">
               {search
                 ? ""
-                : `Showing ${post.productOutputs.length === 0 ? "0" : (skip)*count} - ${(skip)*count + itemsPerPage >= post.meta.total
-                  ? post.meta.total
-                  : (skip)*count + itemsPerPage
-                } of ${post.meta.total} results`}
-                {/* {console.log(data?.data.productOutputs.length)} */}
-                {/* {console.log(data.data.meta.total)} */}
-                {/* {console.log(skip)}
+                : `Showing ${data?.data.productOutputs.length === 0 ? "0" : (skip) * count} - ${(skip) * count + itemsPerPage >= data?.data.meta.total
+                  ? data?.data.meta.total
+                  : (skip) * count + itemsPerPage
+                } of ${data?.data.meta.total} results`}
+              {/* {console.log(data?.data.productOutputs.length)} */}
+              {/* {console.log(data.data.meta.total)} */}
+              {/* {console.log(skip)}
                 {console.log(count * skip)} */}
             </div>
           </div>
@@ -250,14 +253,14 @@ useEffect(() => {
             No Products Found
           </h3>
         )}
-        {data.data.meta.total < 12 || search ? (
+        {data?.data.meta.total < 12 || search ? (
           ""
         ) : (
           <div className="w-full rounded-[30px] mt-10 flex items-center justify-between gap-x-3 relative showPageCount">
             <div className="font-medium flex items-center justify-start gap-x-2 border rounded-lg px-4 py-3 bg-primary text-white">
               <p>Page :</p>
               <span>
-                {skip / itemsPerPage + 1} of {pageCount}
+                {skip} of {pageCount}
               </span>
             </div>
             <div className="flex gap-x-5">
@@ -273,7 +276,7 @@ useEffect(() => {
                   className={`cursor-pointer ${styleArrow}`}
                   onClick={() => {
                     setSkip(skip - 1);
-                
+
                     document.documentElement.scrollTop = 0;
                   }}
                 >
@@ -281,7 +284,7 @@ useEffect(() => {
                 </span>
               )}
 
-              {skip >= data.data.meta.total- itemsPerPage ? (
+              {skip >= data?.data.meta.total - itemsPerPage ? (
                 <span
                   aria-disabled
                   className={`cursor-not-allowed opacity-50 ${styleArrow}`}
@@ -293,7 +296,7 @@ useEffect(() => {
                   className={`cursor-pointer ${styleArrow}`}
                   onClick={() => {
                     setSkip(skip + 1);
-                 
+
                     document.documentElement.scrollTop = 0;
                   }}
                 >

@@ -14,6 +14,7 @@ const icons = ["/instagram.png", "/twitter.png", "/slack.png", "/meta.png"];
 const ProductDetailPage = () => {
     const { slug } = useParams();
     const dispatch = useDispatch();
+    // const { data } = useSWR(`https://dummyjson.com/products/${slug}`, fetcher);
     const { data } = useSWR(`${API}/products/${slug}`, fetcher);
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -30,9 +31,10 @@ const ProductDetailPage = () => {
         images,
         stock,
         brand,
-    } = data;
-
-     const categories = category;
+    } = data.data;
+    console.log(data.data);
+    // const categories = category.charAt(0).toUpperCase() + category.slice(1);
+    const categories = category;
     const remainder = Math.round(5 % rating);
     const rate = Math.floor(rating);
 
@@ -69,7 +71,7 @@ const ProductDetailPage = () => {
                 <div className="grid sm:grid-cols-2 sm:gap-10 gap-[50px] justify-center w-full py-10 sm:px-[100px] px-5">
                     <div className="flex overflow-hidden items-center justify-center">
                         <Slider {...settings} className="slider-product-detail">
-                            {images.length > 0 &&
+                            {images.length &&
                                 images.map((item, index) => (
                                     <div key={index} className="w-full h-full">
                                         <img

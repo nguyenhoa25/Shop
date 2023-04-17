@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../components/input/Input";
 import axios from 'axios';
-
+import { API } from '../commom/const.api';
 const schema = yup.object({
     email: yup
         .string()
@@ -26,9 +26,11 @@ const ForgotPassword = () => {
         mode: "onChange",
     });
     const onSubmit = async (values) => {
+        console.log(values.email);
         try {
-            const res = await axios.post(`http://103.90.227.133:8082/api/v1/auth/forgot-password?email=${values.email}`)
+            const res = await axios.post(`${API}/auth/reset-password?email=${values.email}`)
             toast.success("Succes and check email!");
+            navigate("/login")
         } catch (error) {
             toast.error("Something went wrong!");
         }

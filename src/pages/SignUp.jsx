@@ -20,10 +20,10 @@ const schema = yup.object({
         .string()
         .email("Invalid email address")
         .required("Please enter your email address"),
-    password: yup
-        .string()
-        .required("Please enter your password")
-        .min(8, "Your password must be at least 8 characters"),
+    // password: yup
+    //     .string()
+    //     .required("Please enter your password")
+    //     .min(8, "Your password must be at least 8 characters"),
 });
 const SignUp = () => {
 

@@ -20,7 +20,7 @@ const HomePage = () => {
     if (!data) return;
 
     const products = data.data.productOutputs;
-    console.log(data.data.productOutputs);
+    console.log(data.data);
     const settings = {
         speed: 500,
         slidesToShow: 4,

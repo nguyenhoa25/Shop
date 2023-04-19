@@ -10,6 +10,7 @@ import useDebounce from "../../hooks/useDebounce";
 import IconLeft from "../../icons/IconLeft";
 import { API } from "../../commom/const.api";
 import axios from "axios";
+import { set } from "react-hook-form";
 const itemsPerPage = 12;
 const Product = () => {
   const [skip, setSkip] = useState(0);
@@ -25,27 +26,14 @@ const Product = () => {
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(12);
   const [post, setPost] = useState([]);
+
   const handleSearchProduct = (e) => {
     setSearch(e.target.value);
     console.log(e.target.value);
   };
 
   const searchDebounce = useDebounce(search, 800);
-  // const getPost = async () => {
-  //   try {
-  //     const data = await axios.post(
-  //       `${API}/products/search?category=${categories}&page=${skip}&size=12`
-  //     );
-  //     // console.log(data.data.data.meta.total);
-  //     setPost(data.data.data)
-  //     console.log(categories);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getPost()
-  // }, [categories, searchDebounce, skip])
+
   const [url, setUrl] = useState(
     // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
     // `${API}/products?page=${skip}&size=12`
@@ -53,28 +41,45 @@ const Product = () => {
   const { data } = useSWR(url, fetcher);
   useEffect(() => {
     if (searchDebounce) {
-      // setUrl(`https://dummyjson.com/products/search?q=${searchDebounce}`);
-      setUrl(`${API}/products/search?name=${searchDebounce}`);
-      console.log(searchDebounce);
+      // // setUrl(`https://dummyjson.com/products/search?q=${searchDebounce}`);
+      // setUrl(`${API}/products/search?name=${searchDebounce}`);
+      // console.log(searchDebounce);
+      try {
+        async function fetchData() {
+          const res = await axios.post(`${API}/products/search?name=${searchDebounce}`)
+          setPost(res.data.data.productOutputs)
+        }
+        fetchData();
+      }catch{
+        console.log('err');
+      }
     } else {
       setUrl(
         // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
         `${API}/products?page=${skip}&size=12`
+        // `${API}/products/search${categories ? `?category=${categories}` : ""}&page=${skip}&size=12`
         // `${API}/categories?limit=12&skip=${skip}`
       );
       // console.log(categories);
     }
+    try {
+      async function fetchData() {
+        const res = await axios.post(`${API}/products/search${categories ? `?category=${categories}` : "?"}&page=${skip}&size=12`)
+        setPost(res.data.data.productOutputs)
+      }
+      fetchData();
+    }
+    catch {
+      console.log('err');
+    }
   }, [categories, searchDebounce, skip]);
+  console.log(post);
   if (!data) return;
   // const product = data?.products;
 
-  const product = data?.data.productOutputs;
+  const product =  categories ? post : searchDebounce  ? post : data?.data.productOutputs;
+  // console.log(data?.data.productOutputs);
   // const product = post.productOutputs;
-  // console.log(post);
-  // console.log(post.meta);
-  // console.log(post.productOutputs);
-  //calc count page
-  // const pageCount = Math.ceil(data.data.meta.total / itemsPerPage);
   const pageCount = Math.ceil(data?.data.meta.total / itemsPerPage);
   // console.log(post.meta.total + 'a');
   //  

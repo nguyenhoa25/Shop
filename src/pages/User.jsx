@@ -19,18 +19,63 @@ const User = () => {
         }
         fetchData();
     }, []);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [phone, setPhone] = useState("");
-    const [gender, setGender] = useState("");
-    const [password, setPassword] = useState("");
-    const [address, setAddress] = useState("");
-    const [avatar, setAvatar] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
+    const [values, setValues] = useState({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        fullName: "",
+        birthday: "",
+        phone: "",
+        address: "",
+        gender: ""
+    })
+    const handleInput = (e) => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value
+        })
+    }
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     }
+    const handleUpdatePassword = async () => {
+        console.log(id + values.oldPassword + values.newPassword);
+        if (values.newPassword === values.confirmPassword) {
+            try {
+                const res = await axios.post(`${API}/auth/update-password`, {
+                    id: id,
+                    oldPassword: values.oldPassword,
+                    newPassword: values.newPassword
+                });
+                toast.success('Update your password done')
+            } catch (error) {
+                console.error(error);
+                toast.error('Fail')
+            }
+        }
+        else {
+            toast.error("Confirm fail !")
+        }
+    }
+    const handleUpdateInfoUser = async () => {
+        console.log(id + values.fullName + values.phone + values.gender + values.address + values.birthday);
+        try {
+            const response = await axios.patch(`${API}/users/`, {
+                id: id,
+                fullName: values.fullName,
+                birthday: values.birthday,
+                phone: values.phone,
+                address: values.address,
+                gender: values.gender
+            });
+            console.log(response);
+            toast.success('Update your infomation done')
+        } catch (error) {
+            console.error(error);
+            toast.error('Fail')
+        }
+    };
     const handleAvt = (event) => {
         event.preventDefault();
         // Đọc tệp tin thành base64
@@ -62,31 +107,7 @@ const User = () => {
             console.error(error);
         };
     }
-    const handleSubmit = async (event) => {
-        console.log(name);
-        console.log(birthday);
-        event.preventDefault();
-        const info = {
-            // id: id,
-            fullName: name,
-            email: email,
-            password: password,
-            birthday: birthday,
-            phone: phone,
-            address: address,
-            gender: gender,
-            avatar: avatar,
-        }
-        console.log(info);
-        try {
-            const response = await axios.patch(`${API}/users/${id}`, info);
-            console.log(response.data);
-            toast.success('Update done')
-        } catch (error) {
-            console.error(error);
-            toast.error('Fail')
-        }
-    };
+
 
     return (
         <div className='flex flex-col items-center w-full'>
@@ -170,9 +191,9 @@ const User = () => {
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="name"
-
-                                                    onChange={(e) => setName(e.target.value)}
+                                                    id="oldPassword"
+                                                    name='oldPassword'
+                                                    onChange={handleInput}
                                                     className="border border-gray-400 p-2 w-full rounded-md"
                                                 />
                                             </div>
@@ -182,9 +203,9 @@ const User = () => {
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="name"
-
-                                                    onChange={(e) => setName(e.target.value)}
+                                                    id="newPassword"
+                                                    name='newPassword'
+                                                    onChange={handleInput}
                                                     className="border border-gray-400 p-2 w-full rounded-md"
                                                 />
                                             </div>
@@ -194,9 +215,9 @@ const User = () => {
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="email"
-
-                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    id="confirmPassword"
+                                                    name='confirmPassword'
+                                                    onChange={handleInput}
                                                     className="border border-gray-400 p-2 w-full rounded-md"
                                                 />
                                             </div>
@@ -204,7 +225,7 @@ const User = () => {
                                         </div>
 
                                         <div className="modal-footer flex justify-end pt-2">
-                                            <button onClick={handleSubmit} className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Lưu</button>
+                                            <button onClick={handleUpdatePassword} className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Lưu</button>
                                             <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setShowModalPass(false)}>Hủy bỏ</button>
                                         </div>
                                     </div>
@@ -230,13 +251,13 @@ const User = () => {
                                         {/* <h2 className="text-2xl font-bold mb-4 ">Change User Info</h2> */}
                                         <div className="mb-4">
                                             <label className="text-left block text-gray-700 font-bold mb-2">
-                                                Name:
+                                                Full mame:
                                             </label>
                                             <input
                                                 type="text"
-                                                id="name"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
+                                                id="fullName"
+                                                name="fullName"
+                                                onChange={handleInput}
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
@@ -259,8 +280,8 @@ const User = () => {
                                             <input
                                                 type="text"
                                                 id="phone"
-                                                value={phone}
-                                                onChange={(e) => setPhone(e.target.value)}
+                                                name='phone'
+                                                onChange={handleInput}
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
@@ -272,8 +293,8 @@ const User = () => {
                                             <input
                                                 type="text"
                                                 id="address"
-                                                value={address}
-                                                onChange={(e) => setAddress(e.target.value)}
+                                                name='address'
+                                                onChange={handleInput}
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
@@ -295,28 +316,28 @@ const User = () => {
                                             </label>
                                             <input
                                                 type="date"
-                                                id="date"
-                                                value={birthday}
-                                                onChange={(e) => setBirthday(e.target.value)}
+                                                id="birthday"
+                                                name='birthday'
+                                                onChange={handleInput}
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
                                         <div className="mb-4">
                                             <label className=" text-left block text-gray-700 font-bold mb-2">
-                                                Genger:
+                                                Gender:
                                             </label>
                                             <input
                                                 type="text"
                                                 id="gender"
-                                                value={gender}
-                                                onChange={(e) => setGender(e.target.value)}
+                                                name='gender'
+                                                onChange={handleInput}
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="modal-footer flex justify-end pt-2">
-                                        <button onClick={handleSubmit} className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Lưu</button>
+                                        <button onClick={handleUpdateInfoUser} className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Lưu</button>
                                         <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setShowModal(false)}>Hủy bỏ</button>
                                     </div>
                                 </div>

@@ -29,7 +29,7 @@ const Product = () => {
 
   const handleSearchProduct = (e) => {
     setSearch(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   const searchDebounce = useDebounce(search, 800);
@@ -73,7 +73,7 @@ const Product = () => {
       console.log('err');
     }
   }, [categories, searchDebounce, skip]);
-  console.log(post);
+  // console.log(post);
   if (!data) return;
   // const product = data?.products;
 
@@ -85,7 +85,7 @@ const Product = () => {
   //  
   const handleGetProductCategories = (e) => {
     setGetCategories(e.target.textContent);
-    console.log(e.target.textContent);
+    // console.log(e.target.textContent);
     setCategories(`${e.target.textContent}`);
     setShowCategorySelect(e.target.textContent);
     setSkip(0);

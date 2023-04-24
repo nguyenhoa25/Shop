@@ -184,8 +184,8 @@ const CheckOut = () => {
                     <Input
                       text={"Phone Number*"}
                       name="phone"
-                      type="tel"
-                      pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
+                      type="text"
+                      // pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
                       placeholder="0123-456-789"
                       control={control}
                       className={"px-5 py-2"}

@@ -5,26 +5,41 @@ import { useSelector, useDispatch } from "react-redux";
 import IconChevronLeft from "../icons/IconChevronLeft";
 import { toast } from "react-toastify";
 import IconLeft from "../icons/IconLeft";
-
+import { API } from "../commom/const.api";
+import axios from "axios";
 const ShoppingCart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const [hasLogin, setHasLogin] = useState(false);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+//   const [idCart, setIdCart] = useState('')
+//   const idUser = localStorage.getItem("tumi_id")
+//   const [token, setToken] = useState('');
+//     useEffect(() => {
+//         const token = localStorage.getItem('accessToken');
+//         setToken(token);
+//     }, []);
+//     // console.log(token);
+//     const config = {
+//         headers: { Authorization: `Bearer ${token}`}
+//     };
+//   useEffect(()=>{
+//     async function fetchData(){
+//         try{
+//             // const res = await axios.post(`${API}/carts/${idUser}`)token
+//             const res = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
+//             setIdCart(res.data.data.id)
+//             console.log(res.data.data.id);
+//         }catch(err){
+//             console.log(err);
+//         }
 
+//     }   
+//     fetchData()
+// },[])
   const navigateShop = () => {
     navigate("/shop");
     window.scrollTo(0, 0);
   };
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user?.email) {
-  //       setHasLogin(true);
-  //     } else {
-  //       setHasLogin(false);
-  //     }
-  //   });
-  // }, []);
   let user = localStorage.getItem('accessToken')
   const handleCheckout = () => {
     if (!user) {

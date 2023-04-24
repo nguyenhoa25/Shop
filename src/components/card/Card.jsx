@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { cartActions } from "../../store/slices/cartSlice";
 import IconCart from "../../icons/IconCart";
 import Button from "../button/Button";
+import axios from 'axios';
+import { API } from '../../commom/const.api';
 
 const Card = ({ item }) => {
     const { id, name, category, thumbnail, price, rating } = item;
@@ -12,8 +14,47 @@ const Card = ({ item }) => {
     const dispatch = useDispatch();
     const remainder = Math.round(5 % rating);
     const rate = Math.floor(rating);
+    const idUser = localStorage.getItem("tumi_id")
+    const [idCart, setIdCart] = useState('')
+    // console.log(idUser);
+    const [token, setToken] = useState('');
+    useEffect(() => {
+        function getToken(){
+            const token =  localStorage.getItem('accessToken');
+            setToken(token);
+            
+        }
+        getToken()
+    }, []);
+    
+    const config = {
+        headers: { Authorization: `Bearer ${token}`}
+    };
+    // console.log(config);
+    useEffect(()=>{
+        async function fetchData(){
+            try{
+                // const res = await axios.post(`${API}/carts/${idUser}`)token
+                const res = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
+                setIdCart(res.data.data.id)
+                console.log(res.data.data.id);
+            }catch(err){
+                console.log(err);
+            }
 
-    const addToCart = () => {
+        }   
+   
+        fetchData()
+    },[])
+    const addToCart = async () => {
+        console.log(config);
+        try{
+            // const res = await axios.post(`${API}/carts/${idUser}`)token
+            const res = await axios.post(`${API}/carts/${idCart}/${id}/add-cart-detail?amount=1`)
+            console.log(res);
+        }catch(err){
+            console.log(err);
+        }
         dispatch(
             cartActions.addItem({
                 id,

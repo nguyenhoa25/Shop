@@ -32,7 +32,7 @@ const ProductDetailPage = () => {
         stock,
         brand,
     } = data.data;
-    console.log(data.data);
+    // console.log(data.data);
     // const categories = category.charAt(0).toUpperCase() + category.slice(1);
     const categories = category;
     const remainder = Math.round(5 % rating);

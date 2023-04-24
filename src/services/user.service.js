@@ -37,17 +37,18 @@ class UserService extends HttpService {
 
   async changeUser(
     payload,
-    { name, email, birthday, phone, address, school, gender,grade,faculty }
+    { id, fullName, birthday, phone, address, gender }
   ) {
     try {
       const response = await this.patch(`/users/${payload}`, {
         body: {
-          username,
-          phone,
-          email,
+          id,
           fullName,
+          birthday,
+          phone,
           address,
-          roleId
+          gender,
+
         },
       });
 

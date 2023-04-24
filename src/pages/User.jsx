@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { API } from '../commom/const.api';
 import { toast } from 'react-toastify';
 import CreateIcon from '@mui/icons-material/Create';
+import userService from '../services/user.service';
 const User = () => {
     const [showModal, setShowModal] = useState(false);
     const [showUpdateAvt, setShowUpdateAvt] = useState(false);
@@ -36,9 +37,7 @@ const User = () => {
             [e.target.name]: e.target.value
         })
     }
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    }
+
     const handleUpdatePassword = async () => {
         console.log(id + values.oldPassword + values.newPassword);
         if (values.newPassword === values.confirmPassword) {
@@ -58,6 +57,16 @@ const User = () => {
             toast.error("Confirm fail !")
         }
     }
+
+    const [token, setToken] = useState('');
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        setToken(token);
+    }, []);
+    const config = {
+        headers: { Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'}
+    };
     const handleUpdateInfoUser = async () => {
         console.log(id + values.fullName + values.phone + values.gender + values.address + values.birthday);
         try {
@@ -68,44 +77,31 @@ const User = () => {
                 phone: values.phone,
                 address: values.address,
                 gender: values.gender
-            });
+            }, config)
             console.log(response);
             toast.success('Update your infomation done')
         } catch (error) {
             console.error(error);
             toast.error('Fail')
         }
+        // userService.changeUser(id, values.fullName, values.birthday, values.phone, values.address, values.gender)
     };
-    const handleAvt = (event) => {
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files);
+    }
+    const handleAvt = async (event) => {
         event.preventDefault();
-        // Đọc tệp tin thành base64
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = () => {
-            const data = {
-                id: id,
-                filename: selectedFile.name,
-                filetype: selectedFile.type,
-                value: reader.result
-            };
-            console.log(data);
-            // Gọi Axios để gửi dữ liệu tệp lên server
-            axios.post(`${API}/users/change-avatar/${id}`, data, {
-                headers: {
-                    'content-type': 'application/json'
-                },
-
-            })
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        };
-        reader.onerror = error => {
-            console.error(error);
-        };
+            try {
+                const response = await axios.patch(`${API}/users/change-avatar`, {
+                    id:id,
+                    avatar: selectedFile
+                }, config)
+                console.log(selectedFile);
+                toast.success('Update your avatar done')
+            } catch (error) {
+                console.error(error);
+                toast.error('Fail')
+            }
     }
 
 
@@ -116,7 +112,7 @@ const User = () => {
                 <div className="user w-full h-[170px] relative flex">
                     <div className="user_img absolute top-[-35%] left-40 flex justify-between" >
                         <div className='flex w-[170px] h-[170px]'>
-                            <img src={user.avatar ? user.avatar : `/AvtUser.png`} className='w-full h-full top-[50px] ' alt="avatar" />
+                            <img  src={user.avatar ? user.avatar : `/AvtUser.png`} className='w-full h-full top-[50px] rounded-[50%]  ' alt="avatar" />
                             <button className='absolute cursor-pointer w-[45px] h-[45px] right-[0%] bottom-0 bg-sky-600 rounded-[50%]  hover:opacity-[0.5] text-white' onClick={() => { setShowUpdateAvt(true) }}>
                                 <CreateIcon ></CreateIcon>
                             </button>
@@ -134,10 +130,8 @@ const User = () => {
                                                     <button className="text-black close-modal" onClick={() => setShowUpdateAvt(false)}>
                                                         <svg className="fill-current text-black hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M10.293 9l4.147-4.146a.5.5 0 0 0-.708-.708L9.586 8l-4.147-4.147a.5.5 0 1 0-.708.708L8.879 9l-4.147 4.146a.5.5 0 0 0 .708.708L9.586 10l4.147 4.147a.5.5 0 0 0 .708-.708L10.293 9z" /></svg>
                                                     </button>
-                                                </div>
-
+                                                </div>                  
                                                 <div className="modal-body">
-
                                                     {/* <h2 className="text-2xl font-bold mb-4 ">Change User Info</h2> */}
                                                     <div className="mb-4">
                                                         <label htmlFor="name" className="text-left block text-gray-700 font-bold mb-2">
@@ -150,7 +144,6 @@ const User = () => {
                                                             className="border border-gray-400 p-2 w-full rounded-md"
                                                         />
                                                     </div>
-
                                                 </div>
 
                                                 <div className="modal-footer flex justify-end pt-2">
@@ -382,6 +375,14 @@ const User = () => {
                                     </td>
                                     <td>
                                         <h2 className='font-semibold text-blue-800'>{user.birthday ? user.birthday : "Please update more"}</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='p-5'>
+                                        <h2 className='font-bold'>Gender</h2>
+                                    </td>
+                                    <td>
+                                        <h2 className='font-semibold text-blue-800'>{user.gender ? user.gender : "Please update more"}</h2>
                                     </td>
                                 </tr>
                             </tbody>

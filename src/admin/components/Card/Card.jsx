@@ -10,13 +10,18 @@ import Chart from "react-apexcharts";
 
 const Card = (props) => {
   const [expanded, setExpanded] = useState(false);
+  console.log(expanded);
   return (
     <LayoutGroup>
       {expanded ? (
-        <ExpandedCard param={props} setExpanded={() => setExpanded(false)} />
+        <ExpandedCard param={props} 
+        setExpanded={() => setExpanded(false)} 
+        />
       ) : (
-        <CompactCard param={props} setExpanded={() => setExpanded(true)} />
-      )}
+        <CompactCard param={props} 
+        setExpanded={() => setExpanded(true)} 
+        />
+      )} 
     </LayoutGroup>
   );
 };
@@ -24,6 +29,7 @@ const Card = (props) => {
 // Compact Card
 function CompactCard({ param, setExpanded }) {
   const Png = param.png;
+
   return (
     <motion.div
       className="CompactCard"

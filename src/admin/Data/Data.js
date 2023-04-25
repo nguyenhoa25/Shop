@@ -20,30 +20,41 @@ import img3 from "../imgs/img3.png";
 // Sidebar Data
 export const SidebarData = [
   {
+    id:1,
     icon: UilEstate,
     heading: "Dashboard",
+    to: '/admin'
   },
   {
+    id:2,
     icon: UilClipboardAlt,
     heading: "Orders",
+    to: '/orders'
   },
   {
+    id:3,
     icon: UilUsersAlt,
     heading: "Customers",
+    to: '/customers'
   },
   {
+    id:4,
     icon: UilPackage,
-    heading: 'Products'
+    heading: 'Products',
+    to: '/products'
   },
-  {
-    icon: UilChart,
-    heading: 'Analytics'
-  },
+  // {
+  //   id:5,
+  //   icon: UilChart,
+  //   heading: 'Analytics',
+  //   to: '/analytics'
+  // },
 ];
 
 // Analytics Cards Data
 export const cardsData = [
   {
+    id: 1,
     title: "Sales",
     color: {
       backGround: "linear-gradient(180deg, #bb67ff 0%, #c484f3 100%)",
@@ -60,6 +71,7 @@ export const cardsData = [
     ],
   },
   {
+    id: 2,
     title: "Revenue",
     color: {
       backGround: "linear-gradient(180deg, #FF919D 0%, #FC929D 100%)",
@@ -76,6 +88,7 @@ export const cardsData = [
     ],
   },
   {
+    id: 3,
     title: "Expenses",
     color: {
       backGround:
@@ -97,18 +110,21 @@ export const cardsData = [
 // Recent Update Card Data
 export const UpdatesData = [
   {
+    id: 1,
     img: img1,
     name: "Andrew Thomas",
     noti: "has ordered Apple smart watch 2500mh battery.",
     time: "25 seconds ago",
   },
   {
+    id: 2,
     img: img2,
     name: "James Bond",
     noti: "has received Samsung gadget for charging battery.",
     time: "30 minutes ago",
   },
   {
+    id: 3,
     img: img3,
     name: "Iron Man",
     noti: "has ordered Apple smart watch, samsung Gear 2500mh battery.",

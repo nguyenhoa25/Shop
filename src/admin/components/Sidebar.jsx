@@ -5,7 +5,7 @@ import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [selected, setSelected] = useState(0);
@@ -47,14 +47,15 @@ const Sidebar = () => {
         <div className="menu">
           {SidebarData.map((item, index) => {
             return (
-              <div
+              <NavLink
                 className={selected === index ? "menuItem actives" : "menuItem"}
                 key={index}
+                to={item.to}
                 onClick={() => setSelected(index)}
               >
                 <item.icon />
                 <span>{item.heading}</span>
-              </div>
+              </NavLink>
             );
           })}
           {/* signoutIcon */}

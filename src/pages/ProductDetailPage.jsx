@@ -10,8 +10,33 @@ import SimilarProduct from "../components/product/SimilarProduct";
 import IconCheck from "../icons/IconCheck";
 import { toast } from "react-toastify";
 import { API } from "../commom/const.api";
+import axios from "axios";
 const icons = ["/instagram.png", "/twitter.png", "/slack.png", "/meta.png"];
 const ProductDetailPage = () => {
+    const idUser = localStorage.getItem("tumi_id")
+    const [idCart, setIdCart] = useState('')
+    // console.log(idUser);
+
+    const token = localStorage.getItem('accessToken');
+    const config = {
+        headers: { Authorization: `Bearer ${token}`}
+    };
+    // console.log(config);
+    useEffect(()=>{
+        async function fetchData(){
+            try{
+                // const res = await axios.post(`${API}/carts/${idUser}`)token
+                const res = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
+                setIdCart(res.data.data.id)
+                console.log(idCart);
+            }catch(err){
+                console.log(err);
+            }
+        }   
+   
+        fetchData()
+    },[])
+    localStorage.setItem('idCart', idCart)
     const { slug } = useParams();
     const dispatch = useDispatch();
     // const { data } = useSWR(`https://dummyjson.com/products/${slug}`, fetcher);
@@ -44,8 +69,15 @@ const ProductDetailPage = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-
-    const addToCart = () => {
+    
+    const addToCart = async () => {
+        try{
+            // const res = await axios.post(`${API}/carts/${idUser}`)token
+            const res = await axios.post(`${API}/carts/${idCart}/${id}/add-cart-detail?amount=1`)
+            console.log(res);
+        }catch(err){
+            console.log(err);
+        }
         dispatch(
             cartActions.addItem({
                 id,

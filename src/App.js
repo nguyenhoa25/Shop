@@ -12,6 +12,11 @@ import SignUp from './pages/SignUp';
 import Admin from './admin/Admin';
 import ForgotPassword from './pages/ForgotPassword';
 import User from './pages/User';
+import Products from './admin/components/pages/Products';
+import LayoutAdmin from './admin/components/Layout/LayoutAdmin';
+import MainDash from './admin/components/MainDash/MainDash';
+import Orders from './admin/components/pages/Orders';
+import Customers from './admin/components/pages/Customers';
 
 function App() {
   return (
@@ -27,9 +32,13 @@ function App() {
         </Route>
         <Route path='/login' element={<Login></Login>}/>
         <Route path='/signup' element={<SignUp></SignUp>}/>
-        <Route path='/admin' element= {<Admin></Admin>}/>
         <Route path='/forgot-password' element={<ForgotPassword></ForgotPassword>}></Route>
-        
+        <Route  element= {<Admin></Admin>}>
+            <Route path='/admin' element={<MainDash></MainDash>}></Route>
+            <Route path='/orders' element={<Orders></Orders>}></Route>
+            <Route path='/customers' element={<Customers></Customers>}></Route>
+            <Route path='/products' element={<Products></Products>}></Route>
+        </Route>
       </Routes>
     </div>
   );

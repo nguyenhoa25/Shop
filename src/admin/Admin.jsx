@@ -12,7 +12,7 @@ const Admin = () => {
             <div className="AdminGlass" >
                 <Sidebar></Sidebar>
                 <Outlet></Outlet>
-                <RightSide></RightSide>
+                {/* <RightSide></RightSide> */}
             </div>
         </div>
     )

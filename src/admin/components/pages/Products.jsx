@@ -10,17 +10,42 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 const Products = () => {
     const [skip, setSkip] = useState(0);
-    console.log(skip);
     const [products, setProducts] = useState([])
     useEffect(()=>{
         async function fetchProducts(){
-            const res = await axios.get(`${API}/products?page=${skip}&size=17`)
-            console.log(res.data.data.productOutputs);
+            const res = await axios.get(`${API}/products?page=${skip}&size=11`)
             setProducts(res.data.data.productOutputs)
         }
         fetchProducts()
     },[skip])
     const styleArrow = `flex gap-x-2 items-center justify-center font-semibold px-4 py-2 bg-white text-primary border border-primary hover:bg-primary hover:text-white transition-all rounded-lg`;
+   
+
+    // const [editingProduct, setEditingProduct] = useState(null);
+    
+    const [showModalEdit, setShowModalEdit] = useState(false);
+    const [idProduct, setIdProduct] = useState('')
+    const handleEdit = (id) => {
+      setIdProduct(id);
+      setShowModalEdit(true);
+    };
+    console.log(idProduct);
+    const [values, setValues] = useState({
+      id: "",
+      name: "",
+      stock: "",
+      brand: "",
+      category: "",
+  })
+  const handleInput = (e) => {
+      setValues({
+          ...values,
+          [e.target.name]: e.target.value
+      })
+  }
+  const handleUpdateProduct = () =>{
+    // console.log(values);
+  }
   return (
     <div className="p-10">
       <h1 className="text-2xl font-bold mb-5">Product Table</h1>
@@ -28,18 +53,19 @@ const Products = () => {
       <table className="table-auto h-auto w-full">
         <thead>
           <tr>
-          <th className="bg-gray-200 border  px-4 py-2">Id</th>
-            <th className="bg-gray-200 border  px-4 py-2">Name</th>
-            <th className="bg-gray-200 border  px-4 py-2">Stock</th>
-            <th className="bg-gray-200 border  px-4 py-2">Brand</th>
-            <th className="bg-gray-200 border  px-4 py-2">Category</th>
-            <th className="bg-gray-200 border  ">Thumbnail</th>
-            <th className="bg-gray-200 border  px-4 py-2">Action</th>
+          <th className="bg-blue-300 border  px-4 py-2">Id</th>
+            <th className="bg-blue-300 border  px-4 py-2">Name</th>
+            <th className="bg-blue-300 border  px-4 py-2">Stock</th>
+            <th className="bg-blue-300 border  px-4 py-2">Brand</th>
+            <th className="bg-blue-300 border  px-4 py-2">Category</th>
+            <th className="bg-blue-300 border  ">Thumbnail</th>
+            <th className="bg-blue-300 border  px-4 py-2">Action</th>
           </tr>
         </thead>
         <tbody>
           {products.map((product, index) => (
-            <tr key={index}>
+            <tr key={index} className='hover:bg-blue-200 hover:scale-[1.01] transition'>
+              
               <td className="border  px-4 py-2">{product.id}</td>
               <td className="border text-left px-4 py-2">{product.name}</td>
               <td className="border text-left px-4 py-2">{product.stock}</td>
@@ -49,11 +75,91 @@ const Products = () => {
                 <img src={product.thumbnail} className='w-7 h-6' alt="" />
              </td>
              <td className="border text-left px-4 py-2 flex">
-                <div className='mx-3 cursor-pointer'><ModeEditIcon></ModeEditIcon></div>
+                <div className='mx-3 cursor-pointer' 
+                  // onClick={() => setShowModalEdit(true)}
+                  onClick={()=>handleEdit(product.id)}
+                >
+                  <ModeEditIcon></ModeEditIcon></div>
                 <div className='mx-3 cursor-pointer'><DeleteIcon></DeleteIcon></div>
              </td>
             </tr>
           ))}
+          {
+             showModalEdit && (
+              <div className="modal fixed z-10 inset-0 overflow-y-auto ">
+                  <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+                  <div className="modal-container fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                      <div className="modal-content bg-white p-6 rounded-[30px] shadow-lg  shadow-indigo-800/50">
+                          <div className="modal-header flex justify-between items-center pb-3">
+                              <p className="font-bold text-2xl">Update product</p>
+                              <button className="text-black close-modal" onClick={() => setShowModalEdit(false)}>
+                                  <svg className="fill-current text-black hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M10.293 9l4.147-4.146a.5.5 0 0 0-.708-.708L9.586 8l-4.147-4.147a.5.5 0 1 0-.708.708L8.879 9l-4.147 4.146a.5.5 0 0 0 .708.708L9.586 10l4.147 4.147a.5.5 0 0 0 .708-.708L10.293 9z" /></svg>
+                              </button>
+                          </div>
+
+                          <div className="modal-body">
+
+                              {/* <h2 className="text-2xl font-bold mb-4 ">Change User Info</h2> */}
+                              <div className="mb-4">
+                                  <label className="text-left block text-gray-700 font-bold mb-2">
+                                      Name:
+                                  </label>
+                                  <input
+                                      type="text"
+                                      id="name"
+                                      name='name'
+                                      onChange={handleInput}
+                                      className="border border-gray-400 p-2 w-full rounded-md"
+                                  />
+                              </div>
+                              <div className="mb-4">
+                                  <label className="text-left block text-gray-700 font-bold mb-2">
+                                      Stock:
+                                  </label>
+                                  <input
+                                      type="text"
+                                      id="stock"
+                                      name='stock'
+                                      onChange={handleInput}
+                                      className="border border-gray-400 p-2 w-full rounded-md"
+                                  />
+                              </div>
+                              <div className="mb-4">
+                                  <label className=" text-left block text-gray-700 font-bold mb-2">
+                                      Brand:
+                                  </label>
+                                  <input
+                                      type="text"
+                                      id="brand"
+                                      name='brand'
+                                      onChange={handleInput}
+                                      className="border border-gray-400 p-2 w-full rounded-md"
+                                  />
+                              </div>
+                              <div className="mb-4">
+                                  <label className=" text-left block text-gray-700 font-bold mb-2">
+                                      Category:
+                                  </label>
+                                  <input
+                                      type="text"
+                                      id="category"
+                                      name='category'
+                                      onChange={handleInput}
+                                      className="border border-gray-400 p-2 w-full rounded-md"
+                                  />
+                              </div>
+                          </div>  
+
+                          <div className="modal-footer flex justify-end pt-2">
+                              <button onClick={handleUpdateProduct}  className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Lưu</button>
+                              <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setShowModalEdit(false)}>Hủy bỏ</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          )           
+          }  
         </tbody>
       </table>
       

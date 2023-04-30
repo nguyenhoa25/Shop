@@ -91,7 +91,7 @@ const Header = () => {
                             <NavLink
                                 to={link.path}
                                 key={link.title}
-                                className={`font-medium text-[15px] text-dark py-3 px-5 lg:h-[85%] sm:h-[90%] flex items-center justify-center rounded-[30px] active-tablet`}
+                                className={`font-semibold text-[16px] text-dark py-3 px-5 lg:h-[85%] sm:h-[90%] flex items-center justify-center rounded-[30px] active-tablet`}
                                 onClick={handleNavigate}
                             >
                                 {link.title}

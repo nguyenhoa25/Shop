@@ -64,8 +64,7 @@ const User = () => {
         setToken(token);
     }, []);
     const config = {
-        headers: { Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'}
+        headers: { Authorization: `Bearer ${token}`}
     };
     const handleUpdateInfoUser = async () => {
         console.log(id + values.fullName + values.phone + values.gender + values.address + values.birthday);
@@ -112,7 +111,7 @@ const User = () => {
                 <div className="user w-full h-[170px] relative flex">
                     <div className="user_img absolute top-[-35%] left-40 flex justify-between" >
                         <div className='flex w-[170px] h-[170px]'>
-                            <img  src={user.avatar ? user.avatar : `/AvtUser.png`} className='w-full h-full top-[50px] rounded-[50%]  ' alt="avatar" />
+                            <img  src={user.avatar ? user.avatar : `/AvtUser.png`} className='w-full h-full top-[50px] rounded-[50%] object-cover' alt="avatar" />
                             <button className='absolute cursor-pointer w-[45px] h-[45px] right-[0%] bottom-0 bg-sky-600 rounded-[50%]  hover:opacity-[0.5] text-white' onClick={() => { setShowUpdateAvt(true) }}>
                                 <CreateIcon ></CreateIcon>
                             </button>
@@ -157,9 +156,9 @@ const User = () => {
                             }
                         </div>
                     </div>
-                    <div className='text-right w-full mt-5 mr-20 md:relative md:top-[35%] sm:relative sm:top-[58%]' >
-                        <button className={'p-2 text-right shadow-lg shadow-indigo-800/50 py-4 text-white font-medium bg-primary transition-all rounded-md mr-5'} onClick={() => setShowModal(true)}>Update Infomation</button>
-                        <button className={'p-2 text-right shadow-lg shadow-indigo-800/50 py-4 text-white font-medium bg-primary transition-all rounded-md'} onClick={() => setShowModalPass(true)}>Change Password</button>
+                    <div className='lg:text-right md:text-right  w-full lg:mt-12 lg:mr-20 md:mt-1 sm:mt-28 mt-32' >
+                        <button className={'p-2  shadow-lg shadow-indigo-800/50 py-4 text-white font-medium bg-primary transition-all rounded-md mr-5 '} onClick={() => setShowModal(true)}>Update Infomation</button>
+                        <button className={'p-2  shadow-lg shadow-indigo-800/50 py-4 text-white font-medium bg-primary transition-all rounded-md'} onClick={() => setShowModalPass(true)}>Change Password</button>
                     </div>
                     {
                         showModalPass && (
@@ -339,8 +338,8 @@ const User = () => {
                     )}
                 </div>
             </div>
-            <div className='content lg:flex justify-evenly w-full px-12'>
-                <div className="info_user w-[600px] h-[400px] bg-blue-100 rounded-[40px] flex flex-col">
+            <div className='content lg:flex justify-evenly w-full  px-12'>
+                <div className="info_user lg:w-[600px] md:w-full h-[400px] bg-blue-100 rounded-[40px] flex flex-col">
                     <h1 className='font-bold text-3xl w-auto ml-3 text-blue-600 mt-6'>Infomation</h1>
                     <div className='text-left ml-5 mt-5'>
                         <table>
@@ -358,7 +357,7 @@ const User = () => {
                                         <h2 className='font-bold'>Email</h2>
                                     </td>
                                     <td>
-                                        <h2 className='font-semibold text-blue-800'>{user.email ? user.email : "Please update more"}</h2>
+                                        <h2 className='font-semibold text-blue-800  w-full'> <p className='break-words w-full'>{user.email ? user.email : "Please update more"}</p></h2>
                                     </td>
                                 </tr>
                                 <tr>
@@ -390,7 +389,7 @@ const User = () => {
                         </table>
                     </div>
                 </div>
-                <div className="info_user w-[500px] h-[404px] bg-blue-100 rounded-[40px]">
+                <div className="info_user lg:w-[500px] md:w-auto h-[404px] bg-blue-100 rounded-[40px] ">
                     <h1 className='font-bold text-3xl w-auto ml-3 text-blue-600 mt-6'>Order</h1>
                 </div>
             </div>

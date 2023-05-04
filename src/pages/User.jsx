@@ -64,7 +64,10 @@ const User = () => {
         setToken(token);
     }, []);
     const config = {
-        headers: { Authorization: `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}` ,
+        'Content-Type' : `multipart/form-data`  
+        },
+          
     };
     const handleUpdateInfoUser = async () => {
         console.log(id + values.fullName + values.phone + values.gender + values.address + values.birthday);
@@ -76,8 +79,13 @@ const User = () => {
                 phone: values.phone,
                 address: values.address,
                 gender: values.gender
-            }, config)
-            console.log(response);
+            }, 
+            {
+                headers: 
+                { Authorization: `Bearer ${token}`}
+            }
+            
+            )
             toast.success('Update your infomation done')
         } catch (error) {
             console.error(error);
@@ -94,8 +102,8 @@ const User = () => {
                 const response = await axios.patch(`${API}/users/change-avatar`, {
                     id:id,
                     avatar: selectedFile
-                }, config)
-                console.log(selectedFile);
+                }, config 
+                )
                 toast.success('Update your avatar done')
             } catch (error) {
                 console.error(error);
@@ -253,18 +261,7 @@ const User = () => {
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
-                                        {/* <div className="mb-4">
-                                            <label htmlFor="email" className=" text-left block text-gray-700 font-bold mb-2">
-                                                Email:
-                                            </label>
-                                            <input
-                                                type="email"
-                                                id="email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                className="border border-gray-400 p-2 w-full rounded-md"
-                                            />
-                                        </div> */}
+                                
                                         <div className="mb-4">
                                             <label className=" text-left block text-gray-700 font-bold mb-2">
                                                 Phone:
@@ -290,18 +287,7 @@ const User = () => {
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
-                                        {/* <div className="mb-4">
-                                            <label className=" text-left block text-gray-700 font-bold mb-2">
-                                                Avatar:
-                                            </label>
-                                            <input
-                                                type="text"
-                                                id="avatar"
-                                                value={avatar}
-                                                onChange={(e) => setAvatar(e.target.value)}
-                                                className="border border-gray-400 p-2 w-full rounded-md"
-                                            />
-                                        </div> */}
+                    
                                         <div className="mb-4">
                                             <label className=" text-left block text-gray-700 font-bold mb-2">
                                                 BirthDay:

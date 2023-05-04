@@ -13,7 +13,7 @@ import { Api } from '@mui/icons-material';
 const Products = () => {
     const [skip, setSkip] = useState(0);
     const [products, setProducts] = useState([])
-    const [selectedFile, setSelectedFile] = useState("");
+    const [selectedFile, setSelectedFile] = useState(null);
     const handleFileChange = (event) => {
       event.preventDefault();
       setSelectedFile(event.target.files);
@@ -102,7 +102,7 @@ const handleDelete = (id) =>{
 const handleDeleteProduct = async () =>{
     try{
       const res = axios.delete(`${API}/products/${idProduct}`,config)
-      toast.success('Done')
+      toast.success('Delete product done')
     }
     catch{
       toast.error('Fail')
@@ -125,7 +125,7 @@ const handleAddProduct = async () =>{
           stock: values.stock,
           price: values.price,
           brand: values.brand,
-          file: selectedFile
+          images: selectedFile
       }, config)
       toast.success('Add product done')
       } catch (error) {
@@ -136,7 +136,7 @@ const handleAddProduct = async () =>{
   return (
     <div className="p-10">
       <h1 className="text-2xl font-bold mb-5">Product Table</h1>
-      <button onClick={()=>setShowModalAdd(true)} className=' float-right hover:hover:scale-[1.1] transition mt-5 p-2 mb-2 border rounded bg-green-200 cursor-pointer text-blue-400 font-bold '>Add products</button>
+      <button onClick={()=>setShowModalAdd(true)} className=' float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4'>Add product</button>
       {
              showModalAdd && (
               <div className="modal fixed z-10 inset-0 overflow-y-auto ">

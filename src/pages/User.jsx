@@ -88,7 +88,7 @@ const User = () => {
             )
             toast.success('Update your infomation done')
         } catch (error) {
-            console.error(error);
+   
             toast.error('Fail')
         }
         // userService.changeUser(id, values.fullName, values.birthday, values.phone, values.address, values.gender)

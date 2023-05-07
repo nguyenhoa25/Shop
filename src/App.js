@@ -17,6 +17,8 @@ import LayoutAdmin from './admin/components/Layout/LayoutAdmin';
 import MainDash from './admin/components/MainDash/MainDash';
 import Orders from './admin/components/pages/Orders';
 import Customers from './admin/components/pages/Customers';
+import { Category } from '@mui/icons-material';
+import CategoryQL from './admin/components/pages/CategoryQL';
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
             <Route path='/orders' element={<Orders></Orders>}></Route>
             <Route path='/customers' element={<Customers></Customers>}></Route>
             <Route path='/products' element={<Products></Products>}></Route>
+            <Route path='/categoryql' element={<CategoryQL></CategoryQL>}></Route>
         </Route>
       </Routes>
     </div>

@@ -325,7 +325,7 @@ const User = () => {
                 </div>
             </div>
             <div className='content lg:flex justify-evenly w-full  px-12'>
-                <div className="info_user lg:w-[600px] md:w-full h-[400px] bg-blue-100 rounded-[40px] flex flex-col">
+                <div className="info_user lg:w-[600px] md:w-full h-[450px] bg-blue-100 rounded-[40px] flex flex-col">
                     <h1 className='font-bold text-3xl w-auto ml-3 text-blue-600 mt-6'>Infomation</h1>
                     <div className='text-left ml-5 mt-5'>
                         <table>
@@ -357,6 +357,14 @@ const User = () => {
                                 <tr>
                                     <td className='p-5'>
                                         <h2 className='font-bold'>Address</h2>
+                                    </td>
+                                    <td>
+                                        <h2 className='font-semibold text-blue-800'>{user.address ? user.address : "Please update more"}</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='p-5'>
+                                        <h2 className='font-bold'>Birthday</h2>
                                     </td>
                                     <td>
                                         <h2 className='font-semibold text-blue-800'>{user.birthday ? user.birthday : "Please update more"}</h2>

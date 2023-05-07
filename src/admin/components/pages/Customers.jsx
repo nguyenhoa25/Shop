@@ -24,7 +24,7 @@ const Customers = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-5 ">Customers</h1>
+      <h1 className="text-2xl font-bold mb-5 mt-5">Customers</h1>
       <table className="table-auto h-auto w-full ml-10">
         <thead>
           <tr>

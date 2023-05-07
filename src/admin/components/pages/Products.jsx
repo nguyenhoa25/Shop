@@ -115,9 +115,6 @@ const handleChangeCategory = (event) => {
 }
 
 const handleAddProduct = async () =>{
-   console.log(values);
-   console.log(selectedValue);
-   console.log(selectedFile);
     try {
       const response = await axios.post(`${API}/products`, {
         idCategory: selectedValue,
@@ -133,6 +130,19 @@ const handleAddProduct = async () =>{
           toast.error('Fail')
       }
 }
+    const [category, setCategory] = useState([])
+    useEffect(()=>{
+      const getCatagory = async () =>{
+        try{
+          const res = await axios.get(`${API}/categories`)
+          setCategory(res.data.data);
+        }
+        catch{
+          console.log('Err');
+        }
+      }
+      getCatagory()
+    },[])
   return (
     <div className="p-10">
       <h1 className="text-2xl font-bold mb-5">Product Table</h1>
@@ -205,15 +215,14 @@ const handleAddProduct = async () =>{
                                   <label className=" text-left block text-gray-700 font-bold mb-2">
                                       Category:
                                   </label>
+
                                   <select  className='bg-gray-100 text-gray-700 text-sm w-full p-1' value={selectedValue} onChange={handleChangeCategory}  name="category" id="category">
-                                    <option value="1">GPU</option>
-                                    <option value="2">Smartphone</option>
-                                    <option value="3">Keyboard</option>
-                                    <option value="4">Ram</option>
-                                    <option value="5">Laptop</option>
-                                    <option value="6">Mouse</option>
-                                    <option value="7">CPU</option>
-                                    <option value="8">Headphone</option>
+                                    {
+                                      category.map((item,index)=>(
+                                        <option value={index+1}>{item}</option>
+                                      ))
+                                    }
+                                    
                                   </select>
                               </div>
                               <div className="modal-body">
@@ -268,12 +277,12 @@ const handleAddProduct = async () =>{
                 <img src={product.thumbnail} className='w-7 h-6' alt="" />
              </td>
              <td className="border text-left px-4 py-2 flex">
-                <div className='mx-3 cursor-pointer' 
+                <div className='mx-3 cursor-pointer ' 
                   // onClick={() => setShowModalEdit(true)}
                   onClick={()=>handleEdit(product.id)}
                 >
-                  <ModeEditIcon></ModeEditIcon></div>
-                <div className='mx-3 cursor-pointer' onClick={()=>handleDelete(product.id)}><DeleteIcon></DeleteIcon></div>
+                  <ModeEditIcon className='hover:text-white'></ModeEditIcon></div>
+                <div className='mx-3 cursor-pointer' onClick={()=>handleDelete(product.id)}><DeleteIcon className='hover:text-white'></DeleteIcon></div>
              </td>
             </tr>
           ))}
@@ -391,13 +400,13 @@ const handleAddProduct = async () =>{
                               </button>
                           </div>
 
-                          <div className="modal-body">
+                          <div className="modal-body py-6">
                             Are you sure ?
                           </div>  
 
                           <div className="modal-footer flex justify-end pt-2">
                               <button onClick={handleDeleteProduct}  className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Submit</button>
-                              <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => handleDeleteProduct(false)}>Cancel </button>
+                              <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setShowDeleteProduct(false)}>Cancel </button>
                           </div>
                       </div>
                   </div>

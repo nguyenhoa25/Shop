@@ -58,7 +58,7 @@ const Countdown = () => {
             key={index}
           >
             <span className="md:text-[60px] sm:text-[45px] text-[30px] font-semibold z-10 sm:pb-10 pb-5">
-              {time[0] < 10 ? `0${time[0]}` : time[0]}
+              {time[0] < 10 ? `${time[0] * -1}` : time[0]}
             </span>
             <span className="md:text-[14px] sm:text-[12px] text-[10px] font-bold z-10 absolute bottom-0 left-0 flex items-center justify-center w-full md:h-[40px] sm:h-[30px] h-[25px] text-center text-primary bg-white ">
               {time[1]}

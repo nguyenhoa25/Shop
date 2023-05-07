@@ -21,18 +21,6 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const navigate = useNavigate()
-    // "email": "eve.holt@reqres.in",
-    // "password": "cityslicka"
-    // useEffect(() => {
-    //     if (localStorage.getItem('user-info'))
-    //         navigate('/')
-    // }, [])
-    // "email": "tgtg28082002@gmail.com",
-    // "password": "Thang2002"
-    // const [valueAuth, setValueAuth] = useState({
-    //     email: `${email}`,
-    //     password: `${password}`
-    // })
     async function handleSubmitLogin() {
         // http://20.210.177.113:3333/api/v1/auth/login
         //
@@ -45,8 +33,8 @@ const Login = () => {
                 toast.success("Login success !")
                 const accessToken = data?.data?.token
                 setAuth({ accessToken })
-
                 localStorage.setItem('accessToken', accessToken)
+                localStorage.setItem('roleID', data.data.user.role.id)
             }
             else if (data) {
                 const accessToken = data?.data?.token

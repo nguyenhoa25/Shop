@@ -43,6 +43,12 @@ export const SidebarData = [
     heading: 'Products',
     to: '/products'
   },
+  {
+    id:5,
+    icon: UilChart,
+    heading: 'Category',
+    to: '/categoryql'
+  },
   // {
   //   id:5,
   //   icon: UilChart,

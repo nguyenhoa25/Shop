@@ -36,14 +36,11 @@ const Product = () => {
 
   const [url, setUrl] = useState(
     // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
-    // `${API}/products?page=${skip}&size=12`
+    `${API}/products?page=${skip}&size=12`
   );
   const { data } = useSWR(url, fetcher);
   useEffect(() => {
     if (searchDebounce) {
-      // // setUrl(`https://dummyjson.com/products/search?q=${searchDebounce}`);
-      // setUrl(`${API}/products/search?name=${searchDebounce}`);
-      // console.log(searchDebounce);
       try {
         async function fetchData() {
           const res = await axios.post(`${API}/products/search?name=${searchDebounce}`)
@@ -53,25 +50,23 @@ const Product = () => {
       }catch{
         console.log('err');
       }
-    } else {
-      setUrl(
-        // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
-        `${API}/products?page=${skip}&size=12`
-        // `${API}/products/search${categories ? `?category=${categories}` : ""}&page=${skip}&size=12`
-        // `${API}/categories?limit=12&skip=${skip}`
-      );
-      // console.log(categories);
-    }
-    try {
-      async function fetchData() {
-        const res = await axios.post(`${API}/products/search${categories ? `?category=${categories}` : "?"}&page=${skip}&size=12`)
-        setPost(res.data.data.productOutputs)
+    } 
+    if(!searchDebounce) {
+      // setUrl(
+      //   `${API}/products?page=${skip}&size=12`
+      // );
+      try {
+        async function fetchData() {
+          const res = await axios.post(`${API}/products/search${categories ? `?category=${categories}` : "?"}&page=${skip}&size=12`)
+          setPost(res.data.data.productOutputs)
+        }
+        fetchData();
       }
-      fetchData();
+      catch {
+        console.log('err');
+      }
     }
-    catch {
-      console.log('err');
-    }
+    
   }, [categories, searchDebounce, skip]);
   // console.log(post);
   if (!data) return;

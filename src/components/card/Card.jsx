@@ -7,6 +7,7 @@ import IconCart from "../../icons/IconCart";
 import Button from "../button/Button";
 import axios from 'axios';
 import { API } from '../../commom/const.api';
+import storageService from '../../services/storage.service';
 
 const Card = ({ item }) => {
     const { id, name, category, thumbnail, price, rating } = item;
@@ -16,8 +17,7 @@ const Card = ({ item }) => {
     const rate = Math.floor(rating);
     const idUser = localStorage.getItem("tumi_id")
     const [idCart, setIdCart] = useState('')
-    // console.log(idUser);
-    
+    // console.log(idUser)
     const token = localStorage.getItem('accessToken');
     const config = {
         headers: { Authorization: `Bearer ${token}`}
@@ -36,12 +36,12 @@ const Card = ({ item }) => {
    
         fetchData()
     },[])
-    localStorage.setItem('idCart', idCart)
+    // console.log(idCart);
+    storageService.set('idCart', idCart)
     const addToCart = async () => {
         try{
             // const res = await axios.post(`${API}/carts/${idUser}`)token
-            const res = await axios.post(`${API}/carts/${idCart}/${id}/add-cart-detail?amount=1`)
-            console.log(res);
+            const res = await axios.post(`${API}/carts/${idCart}/${id}/add-cart-detail?amount=1`, config)
         }catch(err){
             console.log(err);
         }
@@ -53,7 +53,7 @@ const Card = ({ item }) => {
                 price,
             })
         );
-        toast.success("Product added successfully");
+        toast.success("Product add to cart successfully");
     };
     return (
         <div className="shadow-lg shadow-indigo-500/50 overflow-hidden transition-all card w-full h-full rounded-lg hover:scale-105 ">
@@ -99,7 +99,7 @@ const Card = ({ item }) => {
                     <p className="font-semibold text-error text-lg">${price}</p>
                     <div className="flex gap-x-2">
                         <div
-                            className="rounded-md bg-primary text-white p-2 cursor-pointer flex items-center justify-center"
+                            className="rounded-md bg-orange-400 text-white p-2 cursor-pointer flex items-center justify-center"
                             onClick={addToCart}
                         >
                             <IconCart></IconCart>

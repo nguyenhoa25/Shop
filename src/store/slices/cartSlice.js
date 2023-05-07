@@ -5,21 +5,6 @@ import { API } from "../../commom/const.api";
 
 
 const cartLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
-// console.log(cartLocalStorage);
-// const token = localStorage.getItem('accessToken');
-// const idUser = localStorage.getItem('tumi_id');
-// const config = {
-//     headers: { Authorization: `Bearer ${token}`}
-// };
-// export const fetchProducts = createAsyncThunk(
-//   async () => {
-//     const cart = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
-//     console.log(cart);
-//     return cart
-//   }
-// )
-
-
 
 const quantityCart = () => {
   let number; 

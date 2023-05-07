@@ -7,35 +7,35 @@ import { toast } from "react-toastify";
 import IconLeft from "../icons/IconLeft";
 import { API } from "../commom/const.api";
 import axios from "axios";
+import storageService from "../services/storage.service";
+
 const ShoppingCart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-//   const [idCart, setIdCart] = useState('')
-//   const idUser = localStorage.getItem("tumi_id")
-//   const [token, setToken] = useState('');
-//     useEffect(() => {
-//         const token = localStorage.getItem('accessToken');
-//         setToken(token);
-//     }, []);
-//     // console.log(token);
-//     const config = {
-//         headers: { Authorization: `Bearer ${token}`}
-//     };
-//   useEffect(()=>{
-//     async function fetchData(){
-//         try{
-//             // const res = await axios.post(`${API}/carts/${idUser}`)token
-//             const res = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
-//             setIdCart(res.data.data.id)
-//             console.log(res.data.data.id);
-//         }catch(err){
-//             console.log(err);
-//         }
-
-//     }   
-//     fetchData()
-// },[])
+  const token = localStorage.getItem('accessToken');
+    const config = {
+        headers: { Authorization: `Bearer ${token}`}
+    };
+  const [cart, setCart] = useState([])
+  const [idItemDetail, setidItemDetail] = useState([])
+  const idUser = localStorage.getItem("tumi_id")
+  useEffect(()=>{
+    const getCart = async () => {
+      try{
+        const res = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
+        console.log(res.data);
+        setCart(res.data.data.itemDetails[0].product)
+        setidItemDetail(res.data.data.itemDetails)
+        storageService.set('cart', JSON.stringify(res.data.data.itemDetails))
+      }
+      catch{
+        console.log('err');
+      }
+    }
+    getCart()
+  },[])
+  console.log(idItemDetail);
   const navigateShop = () => {
     navigate("/shop");
     window.scrollTo(0, 0);

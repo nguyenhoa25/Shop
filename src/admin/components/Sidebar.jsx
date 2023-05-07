@@ -59,8 +59,8 @@ const Sidebar = () => {
             );
           })}
           {/* signoutIcon */}
-          <div className="menuItem" onClick={handleSignOut}>
-            <UilSignOutAlt />
+          <div className="menuItem font-bold " onClick={handleSignOut}>
+            <UilSignOutAlt /> Logout
           </div>
         </div>
       </motion.div>

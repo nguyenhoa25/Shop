@@ -10,6 +10,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { cartActions } from "../store/slices/cartSlice";
+import axios from "axios";
+import { API } from "../commom/const.api";
 const delivery = [
   {
     title: "Same Day",
@@ -42,18 +44,18 @@ const delivery = [
 
 const schema = yup.object({
   name: yup.string().required("Please enter your name..."),
-  email: yup
-    .string()
-    .email("Invalid email address")
-    .required("Please enter your email address"),
+  // email: yup
+  //   .string()
+  //   .email("Invalid email address")
+  //   .required("Please enter your email address"),
   phone: yup
     .string()
     .required("Please enter your phone number")
     .min(8, "Phone number must have more than 8 digits")
     .max(12, "Phone number must have less than 12 digits"),
-  street: yup.string().required("Please enter your Street address"),
-  city: yup.string().required("Please enter your city"),
-  country: yup.string().required("Please enter your country"),
+  street: yup.string().required("Please enter your  address"),
+  // city: yup.string().required("Please enter your city"),
+  // country: yup.string().required("Please enter your country"),
 });
 const CheckOut = () => {
   const navigate = useNavigate();
@@ -92,12 +94,26 @@ const CheckOut = () => {
     const value = e.target.textContent;
     setActiveDelivery(value);
   };
-  const onSubmit = (values) => {
+  const token = localStorage.getItem('accessToken');
+  const config = {
+      headers: { Authorization: `Bearer ${token}`}
+  };
+  const idUser = localStorage.getItem("tumi_id")
+  const onSubmit  = (values) => {
     if (activeDelivery === "") {
       toast.error("Please choose a shipping method");
     } else {
       if (!isValid) return;
       dispacth(cartActions.deleteProductCheckout());
+      // try{
+      //   const res = axios.post(`${API}/orders`,
+      //   {
+      //     idUser: idUser,
+      //   }
+      //   ,config)
+      // }catch{
+
+      // }
       toast.success("Order Successfully!!");
       navigate("/");
     }
@@ -173,14 +189,14 @@ const CheckOut = () => {
                       className={"px-5 py-2"}
                       error={errors?.name?.message}
                     ></Input>
-                    <Input
+                    {/* <Input
                       text={"Email*"}
                       name="email"
                       placeholder="Enter your email address..."
                       control={control}
                       className={"px-5 py-2"}
                       error={errors?.email?.message}
-                    ></Input>
+                    ></Input> */}
                     <Input
                       text={"Phone Number*"}
                       name="phone"
@@ -192,14 +208,14 @@ const CheckOut = () => {
                       error={errors?.phone?.message}
                     ></Input>
                     <Input
-                      text={"Street Address*"}
+                      text={"Address*"}
                       name="street"
-                      placeholder="Enter your street address..."
+                      placeholder="Enter your address..."
                       control={control}
                       className={"px-5 py-2"}
                       error={errors?.street?.message}
                     ></Input>
-                    <Input
+                    {/* <Input
                       text={"City*"}
                       name="city"
                       placeholder="Enter your city..."
@@ -214,7 +230,7 @@ const CheckOut = () => {
                       control={control}
                       className={"px-5 py-2"}
                       error={errors?.country?.message}
-                    ></Input>
+                    ></Input> */}
                   </div>
                 </div>
               </div>

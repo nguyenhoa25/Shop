@@ -81,7 +81,7 @@ const Customers = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-5 mt-5">Customers</h1>
-      <table className="table-auto h-auto w-full ml-10">
+      <table className="table-auto h-auto w-auto ml-10">
         <thead>
           <tr>
             <th className="bg-blue-300 border  px-4 py-2">Id</th>
@@ -91,6 +91,7 @@ const Customers = () => {
             <th className="bg-blue-300 border  px-4 py-2">Birthday</th>
             <th className="bg-blue-300 border  px-4 py-2">Gender</th>
             <th className="bg-blue-300 border  px-4 py-2">Action</th>
+            <th className="bg-blue-300 border  px-4 py-2">Address</th>
           </tr>
         </thead>
         <tbody>
@@ -104,6 +105,7 @@ const Customers = () => {
                 <td className="border px-4 py-2">{`${item.phone}` ? `${item.phone}` : "Update later"}</td>
                 <td className="border px-4 py-2">{`${item.birthday}` ? `${item.birthday}` : "Update later"}</td>
                 <td className="border px-4 py-2">{`${item.gender}` ? `${item.gender}` : "Update later"}</td>
+                <td className="border px-4 py-2">{`${item.address}` ? `${item.address}` : "Update later"}</td>
                 <td className="border text-left px-4 py-2 flex justify-center">
                   <div className='mx-3 cursor-pointer'
                     onClick={() => handleEditUser(item.id)}

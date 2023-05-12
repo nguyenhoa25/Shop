@@ -41,21 +41,24 @@ const delivery = [
     ),
   },
 ];
+const paymethod = [
+  {
+    title: "COD",
 
+  },
+  {
+    title: "NCB",
+  },
+
+]
 const schema = yup.object({
   name: yup.string().required("Please enter your name..."),
-  // email: yup
-  //   .string()
-  //   .email("Invalid email address")
-  //   .required("Please enter your email address"),
   phone: yup
     .string()
     .required("Please enter your phone number")
     .min(8, "Phone number must have more than 8 digits")
     .max(12, "Phone number must have less than 12 digits"),
   street: yup.string().required("Please enter your  address"),
-  // city: yup.string().required("Please enter your city"),
-  // country: yup.string().required("Please enter your country"),
 });
 const CheckOut = () => {
   const navigate = useNavigate();
@@ -66,14 +69,14 @@ const CheckOut = () => {
   const dispacth = useDispatch();
   const totalQty = useSelector((state) => state.cart.totalQuantity);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({
-    resolver: yupResolver(schema),
-    mode: "onChange",
-  });
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   formState: { errors, isValid },
+  // } = useForm({
+  //   resolver: yupResolver(schema),
+  //   mode: "onChange",
+  // });
 
   const handleCollapseContact = () => {
     const info = document.querySelector(".info");
@@ -94,30 +97,22 @@ const CheckOut = () => {
     const value = e.target.textContent;
     setActiveDelivery(value);
   };
+ 
   const token = localStorage.getItem('accessToken');
   const config = {
       headers: { Authorization: `Bearer ${token}`}
   };
   const idUser = localStorage.getItem("tumi_id")
-  const onSubmit  = (values) => {
-    if (activeDelivery === "") {
-      toast.error("Please choose a shipping method");
-    } else {
-      if (!isValid) return;
-      dispacth(cartActions.deleteProductCheckout());
-      // try{
-      //   const res = axios.post(`${API}/orders`,
-      //   {
-      //     idUser: idUser,
-      //   }
-      //   ,config)
-      // }catch{
-
-      // }
-      toast.success("Order Successfully!!");
-      navigate("/");
-    }
-  };
+  // const onSubmit  = (values) => {
+  //   if (activeDelivery === "") {
+  //     toast.error("Please choose a shipping method");
+  //   } else {
+  //     if (!isValid) return;
+  //     dispacth(cartActions.deleteProductCheckout());
+  //     toast.success("Order Successfully!!");
+  //     navigate("/");
+  //   }
+  // };
   const priceShipping = () => {
     let price;
     if (totalAmount < 1000) {
@@ -143,8 +138,65 @@ const CheckOut = () => {
     return price;
   };
 
+  const [values, setValues] = useState({
+    name: "",
+    phone: "",
+    address: ""
+  })
+  const handleInput = (e) => {
+    e.preventDefault();
+      setValues({
+          ...values,
+          [e.target.name]: e.target.value
+      })
+  }
+   console.log(values);
+
+  const id = localStorage.getItem("tumu_id")
+  const handlePlace = async () =>{
+    if (activeDelivery === "") {
+      toast.error("Please choose a shipping method")
+    }else{
+      // dispacth(cartActions.deleteProductCheckout());
+      // toast.success("Order Successfully!!");
+      // navigate("/");
+      try{
+        const res = await axios.post(`${API}/orders`,{
+          id: id,
+          fullName: values.name,
+          address: values.address,
+          phone: values.phone,
+          orderedDate: new Date().toISOString(),
+          deliveryMethod: activeDelivery,
+          deliveredDate: new Date().toISOString(),
+          paymentMethod: "COD",
+          idItemDetails: 10
+        },
+        config)
+        console.log(res);
+      }catch{
+        console.log("err");
+      }
+    }
+    
+  }
+
+  const payNCB = async () => {
+    try{
+      const res = await axios.post(`${API}/payment/1/payment-order`,{
+        amount: (totalAmount + priceDelivery() + priceShipping()) * 23000,
+        orderInfo: "a",
+        bankCode: 'NCB'
+
+      })
+
+      window.location.replace(res.data.data.data)
+    }catch{
+      console.log('err');
+    }
+  }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="my-[80px]">
+    <div className="my-[80px]">
       <div className="container p-5">
         <div className="mt-10 grid lg:grid-cols-[2fr,1fr] grid-cols-1 gap-10 items-center">
           <div>
@@ -181,56 +233,33 @@ const CheckOut = () => {
                     className="grid sm:grid-cols-2 gap-5 text-sm p-5 items-start"
                     autoComplete="off"
                   >
-                    <Input
-                      text={"Name*"}
-                      name="name"
-                      placeholder="Enter your name..."
-                      control={control}
-                      className={"px-5 py-2"}
-                      error={errors?.name?.message}
-                    ></Input>
-                    {/* <Input
-                      text={"Email*"}
-                      name="email"
-                      placeholder="Enter your email address..."
-                      control={control}
-                      className={"px-5 py-2"}
-                      error={errors?.email?.message}
-                    ></Input> */}
-                    <Input
-                      text={"Phone Number*"}
-                      name="phone"
-                      type="text"
-                      // pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
-                      placeholder="0123-456-789"
-                      control={control}
-                      className={"px-5 py-2"}
-                      error={errors?.phone?.message}
-                    ></Input>
-                    <Input
-                      text={"Address*"}
-                      name="street"
-                      placeholder="Enter your address..."
-                      control={control}
-                      className={"px-5 py-2"}
-                      error={errors?.street?.message}
-                    ></Input>
-                    {/* <Input
-                      text={"City*"}
-                      name="city"
-                      placeholder="Enter your city..."
-                      control={control}
-                      className={"px-5 py-2"}
-                      error={errors?.city?.message}
-                    ></Input>
-                    <Input
-                      text={"Country*"}
-                      name="country"
-                      placeholder="Enter your country..."
-                      control={control}
-                      className={"px-5 py-2"}
-                      error={errors?.country?.message}
-                    ></Input> */}
+                    <div className="flex flex-col gap-2 text-sm font-medium items-start">
+                      <label htmlFor="name" className='font-bold '>Name*</label>
+                      <input type="text"
+                          name="name"
+                          placeholder="Enter your name"
+                          className={`w-full border rounded-md  text-sm px-5 py-2`}
+                          onChange={handleInput}
+                      />
+                  </div>
+                  <div className="flex flex-col gap-2 text-sm font-medium items-start">
+                      <label htmlFor="phone" className='font-bold '>Phone Number*</label>
+                      <input type="text"
+                          name="phone"
+                          placeholder="0123-456-789"
+                          className={`w-full border rounded-md  text-sm px-5 py-2`}
+                          onChange={handleInput}
+                      />
+                  </div>
+                  <div className="flex flex-col gap-2 text-sm font-medium items-start">
+                      <label htmlFor="address" className='font-bold '>Address*</label>
+                      <input type="text"
+                          name="address"
+                          placeholder="Enter your address..."
+                          className={`w-full border rounded-md  text-sm px-5 py-2`}
+                          onChange={handleInput}
+                      />
+                  </div>
                   </div>
                 </div>
               </div>
@@ -271,9 +300,16 @@ const CheckOut = () => {
                     {changeIcon3 ? <IconDown></IconDown> : <IconUp></IconUp>}
                   </span>
                 </div>
-                <p className="payment p-5 overflow-hidden max-h-0 opacity-0 border rounded-lg">
-                  Customers will make payment after receiving the goods
+                <p className="flex justify-around payment p-5 overflow-hidden max-h-0 opacity-0 border rounded-lg">
+                
+                 <div
+                      className={`flex items-center justify-center w-[160px] h-[50px] font-medium text-[15px] gap-x-1 border rounded-xl cursor-pointer delivery-item hover:bg-primary hover:text-white  `}
+                    > COD</div>
+                    <div onClick={payNCB}
+                      className={`flex items-center justify-center w-[160px] h-[50px] font-medium text-[15px] gap-x-1 border rounded-xl cursor-pointer delivery-item  hover:bg-primary  hover:text-white`}
+                    > NCB</div>
                 </p>
+                
               </div>
             </div>
           </div>
@@ -314,7 +350,7 @@ const CheckOut = () => {
                   ${totalAmount + priceDelivery() + priceShipping()}
                 </span>
               </div>
-              <button className="mt-5 w-full bg-primary text-white h-[45px] flex items-center justify-center font-medium rounded-lg">
+              <button onClick={handlePlace}  className="mt-5 w-full bg-primary text-white h-[45px] flex items-center justify-center font-medium rounded-lg">
                 Place an order
               </button>
             </div>
@@ -322,7 +358,7 @@ const CheckOut = () => {
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

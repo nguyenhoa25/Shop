@@ -131,7 +131,7 @@ const Orders = () => {
                   <table class="min-w-full">
                     <thead>
                       <tr>
-                       
+                      <th class="py-2 px-4 bg-gray-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Images</th>
                         <th class="py-2 px-4 bg-gray-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Name</th>
                         <th class="py-2 px-4 bg-gray-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Branch</th>
                         <th class="py-2 px-4 bg-gray-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Price</th>
@@ -143,7 +143,9 @@ const Orders = () => {
                         {
                         itemDetails && itemDetails.map((item,index) => (
                           <tr>
-                            
+                            <td class="py-2 px-4 border-b border-gray-300">
+                              <img className='w-[40px] h-[40px]' src={item.product.images[0]} alt="" />
+                            </td>
                             <td class="py-2 px-4 border-b border-gray-300">{item.product.name}</td>
                             <td class="py-2 px-4 border-b border-gray-300">{item.product.brand}</td>
                             <td class="py-2 px-4 border-b border-gray-300">{item.product.price} </td>

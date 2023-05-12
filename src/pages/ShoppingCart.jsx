@@ -24,10 +24,10 @@ const ShoppingCart = () => {
     const getCart = async () => {
       try{
         const res = await axios.get(`${API}/carts/${idUser}/cart-user`, config)
-        console.log(res.data);
+        // console.log(res.data);
         setCart(res.data.data.itemDetails[0].product)
         setidItemDetail(res.data.data.itemDetails)
-        storageService.set('cart', JSON.stringify(res.data.data.itemDetails))
+        // storageService.set('cart', JSON.stringify(res.data.data.itemDetails[0].product))
       }
       catch{
         console.log('err');
@@ -35,7 +35,7 @@ const ShoppingCart = () => {
     }
     getCart()
   },[])
-  console.log(idItemDetail);
+  // console.log(idItemDetail);
   const navigateShop = () => {
     navigate("/shop");
     window.scrollTo(0, 0);

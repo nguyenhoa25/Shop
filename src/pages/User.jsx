@@ -411,15 +411,10 @@ const User = () => {
                 </div>
                 <div className="info_user lg:w-[500px] md:w-auto h-[404px] bg-blue-100 rounded-[40px] ">
                     <h1 className='font-bold text-3xl w-auto ml-3 text-blue-600 mt-6'>Order</h1>
-                    <div className='bg-yellow-400  my-1 flex justify-around w-full h-[40px] items-center font-semibold'>
-                        <div>Order id</div>
-                        <div>Date</div>
-                        <div> Method</div>
-                        <div>Status</div>
-                    </div>
+                    
                     {
                         !order ? (
-                            <div>
+                            <div> 
                                 NO ORDER
                             </div>
                         ) : (
@@ -455,7 +450,7 @@ const User = () => {
                                     <table class="min-w-full">
                                         <thead>
                                             <tr>
-
+                                            <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Image</th>
                                                 <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Name</th>
                                                 <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Branch</th>
                                                 <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Price</th>
@@ -470,6 +465,9 @@ const User = () => {
                                                 // ))
                                                 order[idOrder].itemDetails.map((item, index) => (
                                                     <tr>
+                                                        <th class="py-2 px-4 border-b font-normal border-gray-300">
+                                                            <img className='w-[40px] h-[40px]' src={item.product.images[0]} alt="" />
+                                                        </th>
                                                         <th class="py-2 px-4 border-b font-normal border-gray-300">{item.product.name}</th>
                                                         <th class="py-2 px-4 border-b font-normal border-gray-300" >{item.product.brand}</th>
                                                         <td class="py-2 px-4 border-b border-gray-300">{item.product.price} $</td>

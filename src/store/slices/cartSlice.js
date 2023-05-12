@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { API } from "../../commom/const.api";
 
 
-const cartLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
+// export const fetchData = createAsyncThunk("fetchData", async()=>{
+//   const res = await axios.get(`${API}/products`)
+// })
+
+const cartLocalStorage = JSON.parse( "[]");
 
 const quantityCart = () => {
   let number; 

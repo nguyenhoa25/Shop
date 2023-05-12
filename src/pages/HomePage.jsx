@@ -11,7 +11,7 @@ import Card from '../components/card/Card';
 import { API } from '../commom/const.api';
 const HomePage = () => {
     useEffect(() => {
-        document.title = "ShopLinkKien";
+        document.title = "ShopLinhKien";
     }, []);
     //https://dummyjson.com/products
     //http://103.90.227.133:8082/api/v1/products

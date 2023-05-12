@@ -33,7 +33,6 @@ const Card = ({ item }) => {
                 console.log(err);
             }
         }   
-   
         fetchData()
     },[])
     // console.log(idCart);
@@ -42,6 +41,7 @@ const Card = ({ item }) => {
         try{
             // const res = await axios.post(`${API}/carts/${idUser}`)token
             const res = await axios.post(`${API}/carts/${idCart}/${id}/add-cart-detail?amount=1`, config)
+            console.log(res);
         }catch(err){
             console.log(err);
         }

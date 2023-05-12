@@ -11,6 +11,8 @@ const User = () => {
     const [showUpdateAvt, setShowUpdateAvt] = useState(false);
     const [showModalPass, setShowModalPass] = useState(false);
     const [user, setUser] = useState([])
+    const [itemDetails, setItemDetails] = useState([])
+    const [idOrder, setIdOrder] = useState('')
     let id = localStorage.getItem('tumi_id')
     useEffect(() => {
         async function fetchData() {
@@ -64,10 +66,11 @@ const User = () => {
         setToken(token);
     }, []);
     const config = {
-        headers: { Authorization: `Bearer ${token}` ,
-        'Content-Type' : `multipart/form-data`  
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': `multipart/form-data`
         },
-          
+
     };
     const handleUpdateInfoUser = async () => {
         console.log(id + values.fullName + values.phone + values.gender + values.address + values.birthday);
@@ -79,16 +82,16 @@ const User = () => {
                 phone: values.phone,
                 address: values.address,
                 gender: values.gender
-            }, 
-            {
-                headers: 
-                { Authorization: `Bearer ${token}`}
-            }
-            
+            },
+                {
+                    headers:
+                        { Authorization: `Bearer ${token}` }
+                }
+
             )
             toast.success('Update your infomation done')
         } catch (error) {
-   
+
             toast.error('Fail')
         }
         // userService.changeUser(id, values.fullName, values.birthday, values.phone, values.address, values.gender)
@@ -98,20 +101,43 @@ const User = () => {
     }
     const handleAvt = async (event) => {
         event.preventDefault();
-            try {
-                const response = await axios.patch(`${API}/users/change-avatar`, {
-                    id:id,
-                    avatar: selectedFile
-                }, config 
-                )
-                toast.success('Update your avatar done')
-            } catch (error) {
-                console.error(error);
-                toast.error('Fail')
-            }
+        try {
+            const response = await axios.patch(`${API}/users/change-avatar`, {
+                id: id,
+                avatar: selectedFile
+            }, config
+            )
+            toast.success('Update your avatar done')
+        } catch (error) {
+            console.error(error);
+            toast.error('Fail')
+        }
     }
-
-
+    const [order, setOrder] = useState([])
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        const fetchOrder = async () => {
+            try {
+                const res = await axios.get(`${API}/orders/user/${id}`
+                    , {
+                        headers:
+                            { Authorization: `Bearer ${accessToken}` }
+                    })
+                // console.log(res.data.data);
+                setOrder(res.data.data)
+                // console.log(res.data.data.itemDetails)
+            } catch {
+                console.log('err');
+            }
+        }
+        fetchOrder()
+    }, [])
+    const [modelOrder, setModelOrder] = useState(false)
+    const handleSetIdOrder = (id) => {
+        setIdOrder(id)
+        setModelOrder(true)
+    }
+    // console.log(idOrder);
     return (
         <div className='flex flex-col items-center w-full'>
             <div className=" banner mt-[50px] ">
@@ -119,7 +145,7 @@ const User = () => {
                 <div className="user w-full h-[170px] relative flex">
                     <div className="user_img absolute top-[-35%] left-40 flex justify-between" >
                         <div className='flex w-[170px] h-[170px]'>
-                            <img  src={user.avatar ? user.avatar : `/AvtUser.png`} className='w-full h-full top-[50px] rounded-[50%] object-cover' alt="avatar" />
+                            <img src={user.avatar ? user.avatar : `/AvtUser.png`} className='w-full h-full top-[50px] rounded-[50%] object-cover' alt="avatar" />
                             <button className='absolute cursor-pointer w-[45px] h-[45px] right-[0%] bottom-0 bg-sky-600 rounded-[50%]  hover:opacity-[0.5] text-white' onClick={() => { setShowUpdateAvt(true) }}>
                                 <CreateIcon ></CreateIcon>
                             </button>
@@ -137,7 +163,7 @@ const User = () => {
                                                     <button className="text-black close-modal" onClick={() => setShowUpdateAvt(false)}>
                                                         <svg className="fill-current text-black hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M10.293 9l4.147-4.146a.5.5 0 0 0-.708-.708L9.586 8l-4.147-4.147a.5.5 0 1 0-.708.708L8.879 9l-4.147 4.146a.5.5 0 0 0 .708.708L9.586 10l4.147 4.147a.5.5 0 0 0 .708-.708L10.293 9z" /></svg>
                                                     </button>
-                                                </div>                  
+                                                </div>
                                                 <div className="modal-body">
                                                     {/* <h2 className="text-2xl font-bold mb-4 ">Change User Info</h2> */}
                                                     <div className="mb-4">
@@ -261,7 +287,7 @@ const User = () => {
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
-                                
+
                                         <div className="mb-4">
                                             <label className=" text-left block text-gray-700 font-bold mb-2">
                                                 Phone:
@@ -287,7 +313,7 @@ const User = () => {
                                                 className="border border-gray-400 p-2 w-full rounded-md"
                                             />
                                         </div>
-                    
+
                                         <div className="mb-4">
                                             <label className=" text-left block text-gray-700 font-bold mb-2">
                                                 BirthDay:
@@ -385,8 +411,87 @@ const User = () => {
                 </div>
                 <div className="info_user lg:w-[500px] md:w-auto h-[404px] bg-blue-100 rounded-[40px] ">
                     <h1 className='font-bold text-3xl w-auto ml-3 text-blue-600 mt-6'>Order</h1>
+                    <div className='bg-yellow-400  my-1 flex justify-around w-full h-[40px] items-center font-semibold'>
+                        <div>Order id</div>
+                        <div>Date</div>
+                        <div> Method</div>
+                        <div>Status</div>
+                    </div>
+                    {
+                        !order ? (
+                            <div>
+                                NO ORDER
+                            </div>
+                        ) : (
+
+                            order.map((item, index) => (
+                                <div onClick={() => handleSetIdOrder(index)} key={index} className='bg-green-100 hover:bg-blue-400 hover: cursor-pointer my-1 flex justify-around  w-full h-[40px] items-center'>
+                                    <h2 className='font-bold text-blue-800'>Order {index}</h2>
+                                    <div className='font-semibold text-blue-800'>{new Date(item.createdDate).toLocaleString()}</div>
+                                    <div className='font-semibold text-blue-800'>{item.paymentMethod}</div>
+                                    <div className='font-semibold bg-green-500 p-1  ' >{item.deliveryStatus}</div>
+                                    {/* <img src={item.itemDetails[index].product.images[index]} alt="" className='w-[50px] h-[50px]' />
+                                    <h3>{item.itemDetails[index].product.name}</h3> */}
+                                </div>
+                            ))
+                        )
+                    }
                 </div>
             </div>
+            {
+                modelOrder && (
+                    <div className="modal fixed z-10 inset-0 overflow-y-auto ">
+                        <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                        <div className="modal-container fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                            <div className="modal-content bg-white p-6 rounded-[30px] shadow-lg  shadow-indigo-800/50">
+                                <div className="modal-header flex justify-between items-center pb-3">
+                                    <p className="font-bold text-2xl">Order Detail</p>
+                                    <button className="text-black close-modal" onClick={() => setModelOrder(false)}>
+                                        <svg className="fill-current text-black hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M10.293 9l4.147-4.146a.5.5 0 0 0-.708-.708L9.586 8l-4.147-4.147a.5.5 0 1 0-.708.708L8.879 9l-4.147 4.146a.5.5 0 0 0 .708.708L9.586 10l4.147 4.147a.5.5 0 0 0 .708-.708L10.293 9z" /></svg>
+                                    </button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <table class="min-w-full">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Name</th>
+                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Branch</th>
+                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Price</th>
+                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Amount</th>
+                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                // order[idOrder].itemDetails.map((item,index)=>(
+
+                                                // ))
+                                                order[idOrder].itemDetails.map((item, index) => (
+                                                    <tr>
+                                                        <th class="py-2 px-4 border-b font-normal border-gray-300">{item.product.name}</th>
+                                                        <th class="py-2 px-4 border-b font-normal border-gray-300" >{item.product.brand}</th>
+                                                        <td class="py-2 px-4 border-b border-gray-300">{item.product.price} $</td>
+                                                        <td class="py-2 px-4 border-b border-gray-300">{item.amount}</td>
+                                                        <td class="py-2 px-4 border-b border-gray-300">{(item.product.price * item.amount).toFixed(2)} $</td>
+
+                                                    </tr>
+                                                ))
+                                                // console.log(order[0].itemDetails[0].product)
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div className="modal-footer flex justify-end pt-2">
+                                    <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setModelOrder(false)}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

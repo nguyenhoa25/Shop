@@ -66,6 +66,9 @@ const Products = () => {
         category: values.category,
       }, config)
       toast.success('Update product done')
+      setShowModalEdit(false)
+      const res = await axios.get(`${API}/products?page=${skip}&size=9`)
+      setProducts(res.data.data.productOutputs)
     } catch (error) {
       console.error(error);
       toast.error('Fail')
@@ -102,7 +105,10 @@ const Products = () => {
 
   const handleDeleteProduct = async () => {
     try {
-      const res = axios.delete(`${API}/products/${idProduct}`, config)
+      const data = axios.delete(`${API}/products/${idProduct}`, config)
+      const res = await axios.get(`${API}/products?page=${skip}&size=9`)
+      setProducts(res.data.data.productOutputs)
+      setShowDeleteProduct(false)
       toast.success('Delete product done')
     }
     catch {
@@ -126,6 +132,9 @@ const Products = () => {
         images: selectedFile
       }, config)
       toast.success('Add product done')
+      setShowModalAdd(false)
+      const res = await axios.get(`${API}/products?page=${skip}&size=9`)
+      setProducts(res.data.data.productOutputs)
     } catch (error) {
       console.error(error);
       toast.error('Fail')

@@ -5,12 +5,13 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 const Orders = () => {
-  const [token, setToken] = useState('');
+  
   const [order, setOrder] = useState([])
   const [user, setUser] = useState([])
   const [idOrder, setIdOrder] = useState('')
   const [modelOrder, setModelOrder] = useState(false)
   const [itemDetails, setItemDetails] = useState([])
+  const [token, setToken] = useState('');
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -85,7 +86,7 @@ const Orders = () => {
                       onClick={() => handleShowOrder(item.id)}
                     >
                       <VisibilityIcon className='hover:text-white'></VisibilityIcon></div>
-                    <div className='mx-3 cursor-pointer'><DeleteIcon className='hover:text-white'  ></DeleteIcon></div>
+                    {/* <div className='mx-3 cursor-pointer'><DeleteIcon className='hover:text-white'  ></DeleteIcon></div> */}
                   </td>
                 </tr>
               ))
@@ -148,13 +149,11 @@ const Orders = () => {
                             </td>
                             <td class="py-2 px-4 border-b border-gray-300">{item.product.name}</td>
                             <td class="py-2 px-4 border-b border-gray-300">{item.product.brand}</td>
-                            <td class="py-2 px-4 border-b border-gray-300">{item.product.price} </td>
+                            <td class="py-2 px-4 border-b border-gray-300">{item.product.price}$ </td>
                             <td class="py-2 px-4 border-b border-gray-300">{item.amount}</td>
-                            <td class="py-2 px-4 border-b border-gray-300">{(item.product.price * item.amount).toFixed(2)} </td>
-                            
+                            <td class="py-2 px-4 border-b border-gray-300">{(item.product.price * item.amount).toFixed(2)}$ </td>
                           </tr>
                           ))
-
                         }
                     </tbody>
                   </table>

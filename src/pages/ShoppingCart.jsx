@@ -109,30 +109,30 @@ const ShoppingCart = () => {
             {totalAmount > 0 && (
               <div className="bg-text3 bg-opacity-5 rounded-lg p-5 pb-10 w-full h-fit">
                 <div className="flex justify-between mb-5">
-                  <p className="text-[22px] font-semibold ">Subtotal</p>
+                  <p className="text-[22px] font-semibold ">Tổng thu</p>
                   <span className="text-error font-semibold text-lg">
                     ${totalAmount}
                   </span>
                 </div>
                 <div>
                   <h3 className="font-semibold mb-3">
-                    Information about shipping fees
+                    Thông tin phí vận chuyển
                   </h3>
                   <div className="flex flex-col gap-3 text-text3 text-sm">
                     <p className="flex gap-x-2 font-medium">
-                      {`Subtotal < $1000 :`}
+                      {`Đơn hàng < $1000 :`}
                       <span className=" font-medium text-primary">
                         Free Shipping
                       </span>
                     </p>
                     <p className="flex gap-x-2 font-medium">
-                      {`Subtotal < $5000 : `}
+                      {`Đơn hàng < $5000 : `}
                       <span className=" font-medium text-primary">
                         Fee $100
                       </span>
                     </p>
                     <p className="flex gap-x-2 font-medium">
-                      {` Subtotal > $5000 : `}
+                      {` Đơn hàng > $5000 : `}
                       <span className=" font-medium text-primary">
                         Fee $200
                       </span>
@@ -140,7 +140,7 @@ const ShoppingCart = () => {
                   </div>
                 </div>
                 <p className="my-5 text-text3">
-                  Taxes and shipping will caculate in checkout
+                Thuế và vận chuyển sẽ được tính khi thanh toán
                 </p>
                 <div className="flex flex-col gap-5">
                   <button className="w-full py-4 bg-primary rounded-md text-white hover:bg-error transition-all">

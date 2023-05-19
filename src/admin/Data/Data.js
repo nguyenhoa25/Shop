@@ -28,25 +28,25 @@ export const SidebarData = [
   {
     id:2,
     icon: UilClipboardAlt,
-    heading: "Orders",
+    heading: "Đơn hàng",
     to: '/orders'
   },
   {
     id:3,
     icon: UilUsersAlt,
-    heading: "Customers",
+    heading: "Khách hàng",
     to: '/customers'
   },
   {
     id:4,
     icon: UilPackage,
-    heading: 'Products',
+    heading: 'Sản phẩm  ',
     to: '/products'
   },
   {
     id:5,
     icon: UilChart,
-    heading: 'Category',
+    heading: 'Danh mục',
     to: '/categoryql'
   },
   // {

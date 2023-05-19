@@ -38,6 +38,12 @@ const Product = () => {
     // `https://dummyjson.com/products${categories}?limit=12&skip=${skip}`
     `${API}/products?page=${skip}&size=12`
   );
+  // useEffect(()=>{
+  //   setUrl(skip)
+  // },[])
+    useEffect(()=>{
+      setUrl(`${API}/products?page=${skip}&size=12`)
+    },)
   const { data } = useSWR(url, fetcher);
   useEffect(() => {
     if (searchDebounce) {
@@ -52,13 +58,11 @@ const Product = () => {
       }
     } 
     if(!searchDebounce) {
-      // setUrl(
-      //   `${API}/products?page=${skip}&size=12`
-      // );
       try {
         async function fetchData() {
           const res = await axios.post(`${API}/products/search${categories ? `?category=${categories}` : "?"}&page=${skip}&size=12`)
           setPost(res.data.data.productOutputs)
+          
         }
         fetchData();
       }
@@ -68,16 +72,12 @@ const Product = () => {
     }
     
   }, [categories, searchDebounce, skip]);
-  // console.log(post);
-  if (!data) return;
-  // const product = data?.products;
 
+  if (!data) return;
   const product =  categories ? post : searchDebounce  ? post : data?.data.productOutputs;
-  // console.log(data?.data.productOutputs);
-  // const product = post.productOutputs;
+
   const pageCount = Math.ceil(data?.data.meta.total / itemsPerPage);
-  // console.log(post.meta.total + 'a');
-  //  
+
   const handleGetProductCategories = (e) => {
     setGetCategories(e.target.textContent);
     // console.log(e.target.textContent);
@@ -296,7 +296,6 @@ const Product = () => {
                   className={`cursor-pointer ${styleArrow}`}
                   onClick={() => {
                     setSkip(skip + 1);
-
                     document.documentElement.scrollTop = 0;
                   }}
                 >

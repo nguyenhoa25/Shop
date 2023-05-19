@@ -70,7 +70,7 @@ const Countdown = () => {
         className="w-[130px] z-10 sm:text-[14px] max-sm:py-3"
         onClick={navigationShop}
       >
-        Visit Store
+        Thăm cửa hàng
       </Button>
       <div className="blob"></div>
     </div>

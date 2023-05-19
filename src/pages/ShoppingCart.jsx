@@ -71,20 +71,20 @@ const ShoppingCart = () => {
               <IconChevronLeft></IconChevronLeft>
             </div>
             <h3 className="md:text-[40px] sm:text-[30px] text-[22px] font-semibold max-sm:flex-1 text-center">
-              My Cart
+              Giỏ hàng
             </h3>
             <NavLink
               to={"/shop"}
               className="max-sm:hidden flex justify-between items-center gap-x-2 rounded-lg border font-medium py-3 px-5 hover:bg-primary hover:text-white transition-all"
             >
               <IconLeft></IconLeft>
-              Continue shopping
+              Tiếp tục mua hàng
             </NavLink>
           </div>
         </div>
         {cartItems.length === 0 ? (
           <h2 className="flex items-center justify-center text-[20px] md:text-[30px] font-semibold">
-            No item added to cart
+            Chưa có sản phẩm được thêm
           </h2>
         ) : (
           <div className="w-full md:grid grid-cols-[2fr,1fr] flex flex-col gap-10">

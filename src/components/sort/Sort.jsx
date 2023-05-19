@@ -27,7 +27,7 @@ const Sort = ({ onClick = () => {} }) => {
   return (
     <div className="relative">
       <h3 className="flex gap-x-2 items-center text-sm font-medium">
-        <p>Sort by : </p>
+        <p>Sắp xếp : </p>
         <p
           className="border min-w-[160px] py-2 px-3 cursor-pointer rounded-md flex justify-between items-center"
           onClick={handleShowSort}

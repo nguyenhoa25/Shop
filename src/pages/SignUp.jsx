@@ -44,8 +44,8 @@ const SignUp = () => {
                 password: values.password,
             })
 
-            toast.success("Create Account Successfully !");
-            toast.success("Please check email!");
+            toast.success("Tạo tài khoản thành công !");
+            toast.success("Vui lòng kiểm tra email của bạn");
             navigate("/login");
         } catch (error) {
             toast.error("Something went wrong!");

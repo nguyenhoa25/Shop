@@ -40,7 +40,7 @@ const Card = ({ item }) => {
     const addToCart = async () => {
         try{
             // const res = await axios.post(`${API}/carts/${idUser}`)token
-            const res = await axios.post(`${API}/carts/${idCart}/${id}/add-cart-detail?amount=1`, config)
+            const res = await axios.post(`${API}/carts/${idUser}/${id}/add-cart-detail?amount=1`, config)
             console.log(res);
         }catch(err){
             console.log(err);
@@ -96,7 +96,7 @@ const Card = ({ item }) => {
                 </div>
                 <h3 className="font-semibold w-full h-[2rem] flex items-center">{name}</h3>
                 <div className="flex justify-between items-center gap-x-5">
-                    <p className="font-semibold text-error text-lg">${price}</p>
+                    <p className="font-semibold text-error text-lg">${price }</p>
                     <div className="flex gap-x-2">
                         <div
                             className="rounded-md bg-orange-400 text-white p-2 cursor-pointer flex items-center justify-center"
@@ -106,7 +106,7 @@ const Card = ({ item }) => {
                         </div>
                     </div>
                 </div>
-                <Button onClick={() => navigate(`/product/${id}`)}>Detail</Button>
+                <Button onClick={() => navigate(`/product/${id}`)}>Chi tiết</Button>
             </div>
         </div>
     )

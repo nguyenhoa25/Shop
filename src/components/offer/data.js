@@ -1,7 +1,7 @@
 export const Lorem = [
     {
         id:1,
-        content: "We understand the importance of providing uninterrupted support for our products. That's why we offer round-the-clock support, 24 hours a day, 7 days a week. Our dedicated support team is always available to assist you, no matter the time or day."
+        content: "Chúng tôi hiểu tầm quan trọng của việc cung cấp hỗ trợ liên tục cho các sản phẩm của chúng tôi. Đó là lý do tại sao chúng tôi cung cấp dịch vụ hỗ trợ suốt ngày đêm, 24 giờ một ngày, 7 ngày một tuần. Nhóm hỗ trợ chuyên dụng của chúng tôi luôn sẵn sàng hỗ trợ bạn, bất kể thời gian hay ngày."
     },
     {
         id: 2,

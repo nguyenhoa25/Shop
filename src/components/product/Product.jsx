@@ -94,7 +94,7 @@ const Product = () => {
 
   const handleChangeSort = (e) => {
     const value = e.target.textContent;
-    if (value === "Default") {
+    if (value === "Mặc định") {
       setSortName(false);
       setSortNameReverse(false);
       setSortPrice(false);
@@ -182,7 +182,7 @@ const Product = () => {
         <div className="flex justify-between sm:gap-x-10 gap-5 text-sm text-dark md:pl-2 items-center mt-5 flex-wrap">
           <div className="flex gap-x-5">
             <div className="flex gap-x-3 items-center">
-              <h3 className="font-semibold">Categories: </h3>
+              <h3 className="font-semibold">Dòng sản phẩm: </h3>
               <span className="font-medium text-[13px] rounded-3xl py-2 px-4 show-cate">
                 {showCategotySelect}
               </span>

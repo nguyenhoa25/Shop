@@ -13,7 +13,7 @@ const Card = (props) => {
   console.log(expanded);
   return (
     <LayoutGroup>
-      {expanded ? (
+      {/* {expanded ? (
         <ExpandedCard param={props} 
         setExpanded={() => setExpanded(false)} 
         />
@@ -21,7 +21,7 @@ const Card = (props) => {
         <CompactCard param={props} 
         setExpanded={() => setExpanded(true)} 
         />
-      )} 
+      )}  */}
     </LayoutGroup>
   );
 };

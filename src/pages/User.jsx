@@ -6,6 +6,7 @@ import { API } from '../commom/const.api';
 import { toast } from 'react-toastify';
 import CreateIcon from '@mui/icons-material/Create';
 import userService from '../services/user.service';
+import { set } from 'react-hook-form';
 const User = () => {
     const [showModal, setShowModal] = useState(false);
     const [showUpdateAvt, setShowUpdateAvt] = useState(false);
@@ -13,6 +14,8 @@ const User = () => {
     const [user, setUser] = useState([])
     const [itemDetails, setItemDetails] = useState([])
     const [idOrder, setIdOrder] = useState('')
+
+
     let id = localStorage.getItem('tumi_id')
     useEffect(() => {
         async function fetchData() {
@@ -90,6 +93,7 @@ const User = () => {
 
             )
             toast.success('Update your infomation done')
+            setShowModal(false)
         } catch (error) {
 
             toast.error('Fail')
@@ -125,19 +129,40 @@ const User = () => {
                     })
                 // console.log(res.data.data);
                 setOrder(res.data.data)
-                // console.log(res.data.data.itemDetails)
+                console.log(res.data.data)
+                // setDataOrder(res.data.data.itemDetails.reduce(
+                //     (total, item) => total + item.amount * item.price,
+                //     0
+                //   ) )
+
             } catch {
                 console.log('err');
             }
         }
         fetchOrder()
     }, [])
+
     const [modelOrder, setModelOrder] = useState(false)
     const handleSetIdOrder = (id) => {
         setIdOrder(id)
         setModelOrder(true)
+        // console.log(dataOrder);
     }
-    // console.log(idOrder);
+    const [modelDeleteOrder, setModelDeleteOrder] =useState(false)
+    const handleDeleteOrder = async ( ) =>{
+        setModelDeleteOrder(true)
+    }
+    const handleDelete = async () =>{
+        try{
+            const res = await axios.delete(`${API}/orders/${idOrder}`, config)
+            toast.success('Hủy đơn thành công')
+            setModelDeleteOrder(false);
+            setModelOrder(false)
+        }catch{
+            console.log('err');
+        }
+    }
+
     return (
         <div className='flex flex-col items-center w-full'>
             <div className=" banner mt-[50px] ">
@@ -409,12 +434,12 @@ const User = () => {
                         </table>
                     </div>
                 </div>
-                <div className="info_user lg:w-[500px] md:w-auto h-[404px] bg-blue-100 rounded-[40px] ">
+                <div className="info_user lg:w-[500px] md:w-auto h-auto p-3 bg-blue-100 rounded-[40px] ">
                     <h1 className='font-bold text-3xl w-auto ml-3 text-blue-600 mt-6'>Order</h1>
-                    
+
                     {
                         !order ? (
-                            <div> 
+                            <div>
                                 NO ORDER
                             </div>
                         ) : (
@@ -450,12 +475,12 @@ const User = () => {
                                     <table class="min-w-full">
                                         <thead>
                                             <tr>
-                                            <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Image</th>
-                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Name</th>
-                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Branch</th>
-                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Price</th>
-                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Amount</th>
-                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Total</th>
+                                                <th class="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Image</th>
+                                                <th className="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Name</th>
+                                                <th className="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Branch</th>
+                                                <th className="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Price</th>
+                                                <th className="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Amount</th>
+                                                <th className="py-2 px-4 bg-blue-200 font-semibold uppercase text-sm text-gray-600 border-b border-gray-300">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -464,17 +489,18 @@ const User = () => {
 
                                                 // ))
                                                 order[idOrder].itemDetails.map((item, index) => (
-                                                    <tr>
+                                                    <tr key={index}>
                                                         <th class="py-2 px-4 border-b font-normal border-gray-300">
                                                             <img className='w-[40px] h-[40px]' src={item.product.images[0]} alt="" />
                                                         </th>
-                                                        <th class="py-2 px-4 border-b font-normal border-gray-300">{item.product.name}</th>
-                                                        <th class="py-2 px-4 border-b font-normal border-gray-300" >{item.product.brand}</th>
-                                                        <td class="py-2 px-4 border-b border-gray-300">{item.product.price} $</td>
-                                                        <td class="py-2 px-4 border-b border-gray-300">{item.amount}</td>
-                                                        <td class="py-2 px-4 border-b border-gray-300">{(item.product.price * item.amount).toFixed(2)} $</td>
+                                                        <th className="py-2 px-4 border-b font-normal border-gray-300">{item.product.name}</th>
+                                                        <th className="py-2 px-4 border-b font-normal border-gray-300" >{item.product.brand}</th>
+                                                        <td className="py-2 px-4 border-b border-gray-300">{item.product.price} $</td>
+                                                        <td className="py-2 px-4 border-b border-gray-300">{item.amount}</td>
+                                                        <td className="py-2 px-4 border-b border-gray-300">{(item.product.price * item.amount).toFixed(2)} $</td>
 
                                                     </tr>
+
                                                 ))
                                                 // console.log(order[0].itemDetails[0].product)
                                             }
@@ -483,11 +509,33 @@ const User = () => {
                                 </div>
 
                                 <div className="modal-footer flex justify-end pt-2">
-                                    <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setModelOrder(false)}>Cancel</button>
+                                    <button onClick={handleDeleteOrder} className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Hủy đơn</button>
+                                    <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setModelOrder(false)}>Quay lại</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                )
+            }
+            {
+                modelDeleteOrder && (
+                    <div className="modal fixed z-20 inset-0 overflow-y-auto ">
+                        <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                        <div className="modal-container fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                            <div className='modal-content bg-white p-6 rounded-[30px] shadow-lg  shadow-indigo-800/50'>
+                                <div className="modal-header flex justify-between items-center pb-3">
+                                    <p className="font-bold text-2xl">Bạn chắc chắn xóa đơn hàng</p>
+                                    <button className="text-black close-modal" onClick={() => setModelDeleteOrder(false)}>
+                                        <svg className="fill-current text-black hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M10.293 9l4.147-4.146a.5.5 0 0 0-.708-.708L9.586 8l-4.147-4.147a.5.5 0 1 0-.708.708L8.879 9l-4.147 4.146a.5.5 0 0 0 .708.708L9.586 10l4.147 4.147a.5.5 0 0 0 .708-.708L10.293 9z" /></svg>
+                                    </button>
+                                </div>
+                                <div className="modal-footer flex justify-end pt-2">
+                                    <button onClick={handleDelete} className="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Yes</button>
+                                    <button className="mx-2 px-4 bg-white py-3 rounded-lg text-gray-600 font-medium border border-gray-300 hover:bg-gray-100" onClick={() => setModelDeleteOrder(false)}>No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                            
                 )
             }
         </div>

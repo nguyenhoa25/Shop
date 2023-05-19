@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import axios from "axios";
 import { API } from "../commom/const.api";
 const delivery = [
   {
-    title: "Same Day",
+    title: "SAME_DAY",
     icon: (
       <ion-icon
         name="rocket-outline"
@@ -23,7 +23,7 @@ const delivery = [
     ),
   },
   {
-    title: "Express",
+    title: "EXPRESS",
     icon: (
       <ion-icon
         name="bicycle-outline"
@@ -32,7 +32,7 @@ const delivery = [
     ),
   },
   {
-    title: "Normal",
+    title: "NORMAL",
     icon: (
       <ion-icon
         name="walk-outline"
@@ -126,11 +126,11 @@ const CheckOut = () => {
   };
   const priceDelivery = () => {
     let price;
-    if (activeDelivery === "Same Day") {
+    if (activeDelivery === "SAME_DAY") {
       price = 200;
-    } else if (activeDelivery === "Express") {
+    } else if (activeDelivery === "EXPRESS") {
       price = 100;
-    } else if (activeDelivery === "Normal") {
+    } else if (activeDelivery === "NORMAL") {
       price = 50;
     } else {
       price = 0;
@@ -152,8 +152,24 @@ const CheckOut = () => {
   }
    console.log(values);
 
-  const id = localStorage.getItem("tumu_id")
+  const id = localStorage.getItem("tumi_id")
+  const cartID = localStorage.getItem("tumi_idCart")
+  const [idItemDetails, setIdItemDetails] = useState([])
+  useEffect(()  => {
+    const fetchCart = async () =>{
+      try{ 
+        const res = await axios.get(`${API}/carts/${cartID}`,config)
+        console.log(res.data.data.itemDetails.map(item => item.id));
+        setIdItemDetails(res.data.data.itemDetails.map(item => item.id))
+      }catch{
+        console.log('err');
+      }
+    }
+    fetchCart()
+  },[])
+
   const handlePlace = async () =>{
+    console.log(idItemDetails);
     if (activeDelivery === "") {
       toast.error("Please choose a shipping method")
     }else{
@@ -162,18 +178,25 @@ const CheckOut = () => {
       // navigate("/");
       try{
         const res = await axios.post(`${API}/orders`,{
-          id: id,
+          idUser: id,
           fullName: values.name,
           address: values.address,
           phone: values.phone,
           orderedDate: new Date().toISOString(),
-          deliveryMethod: activeDelivery,
+           deliveryMethod: activeDelivery,
+          // deliveryMethod: "SAME_DAY",
           deliveredDate: new Date().toISOString(),
           paymentMethod: "COD",
-          idItemDetails: 10
+          idItemDetails: 
+            idItemDetails
+          ,
+          // idUserCoupon: ""
         },
         config)
         console.log(res);
+        dispacth(cartActions.deleteProductCheckout());
+        toast.success("Order Successfully!!");
+        navigate("/");
       }catch{
         console.log("err");
       }
@@ -181,9 +204,13 @@ const CheckOut = () => {
     
   }
 
+  const min = 1;
+const max = 10;
+const randomInRange = Math.floor(Math.random() * (max - min + 1) + min);
+
   const payNCB = async () => {
     try{
-      const res = await axios.post(`${API}/payment/1/payment-order`,{
+      const res = await axios.post(`${API}/payment/${randomInRange}/payment-order`,{
         amount: (totalAmount + priceDelivery() + priceShipping()) * 23000,
         orderInfo: "a",
         bankCode: 'NCB'
@@ -303,7 +330,7 @@ const CheckOut = () => {
                 <p className="flex justify-around payment p-5 overflow-hidden max-h-0 opacity-0 border rounded-lg">
                 
                  <div
-                      className={`flex items-center justify-center w-[160px] h-[50px] font-medium text-[15px] gap-x-1 border rounded-xl cursor-pointer delivery-item hover:bg-primary hover:text-white  `}
+                      className={` flex active items-center justify-center w-[160px] h-[50px] font-medium text-[15px] gap-x-1 border rounded-xl cursor-pointer delivery-item hover:bg-primary hover:text-white  `}
                     > COD</div>
                     <div onClick={payNCB}
                       className={`flex items-center justify-center w-[160px] h-[50px] font-medium text-[15px] gap-x-1 border rounded-xl cursor-pointer delivery-item  hover:bg-primary  hover:text-white`}

@@ -49,10 +49,10 @@ const ForgotPassword = () => {
                 </NavLink>
                 <div className="forgot-password max-w-[500px] w-full h-auto mx-auto sm:p-10 p-5 flex flex-col items-center relative shadow-2xl rounded-lg">
                     <h4 className="text-xl font-semibold mb-2 z-10 text-center">
-                        Welcome To Our Website!
+                        Chào mừng trở lại!
                     </h4>
                     <p className="mb-2 text-sm font-medium z-10">
-                        Already have an account?{" "}
+                        Tài khoản của bạn đã sẵn sàng?{" "}
                         <NavLink to={"/login"} className="sm:text-primary text-error">
                             Sign In
                         </NavLink>

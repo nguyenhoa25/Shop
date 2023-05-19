@@ -24,7 +24,7 @@ const Banner = () => {
             IT
           </h3>
           <p className="w-[52%] leading-[1.5] lg:mb-10 md:text-sm max-md:hidden">
-            You'll be amazed to find the best design moblie
+          Bạn sẽ ngạc nhiên khi tìm thấy thiết kế di động tốt nhất
           </p>
           <NavLink to={"/shop"} className="flex gap-x-2 items-center lg:p-4 lg:pl-8 md:p-3 md:pl-5 bg-error bg-opacity-90 rounded-[30px] font-medium md:relative max-md:hidden btn">
             <span className="z-10">Start Shopping</span>

@@ -30,7 +30,7 @@ const Login = () => {
             // console.log(email + password);
             if (data.data.user.role.id == 1) {
                 navigate('/admin', { replace: true })
-                toast.success("Login success !")
+                toast.success("Đăng nhập thành công !")
                 const accessToken = data?.data?.token
                 setAuth({ accessToken })
                 localStorage.setItem('accessToken', accessToken)
@@ -42,7 +42,7 @@ const Login = () => {
                 // console.log(accessToken);
                 localStorage.setItem('accessToken', accessToken)
                 navigate('/', { replace: true })
-                toast.success("Login success !")
+                toast.success("Đăng nhập thành công!")
                 storageService.set('id', data.data.user.id)
                 storageService.set('email', data.data.user.email)
                 storageService.set('name', data.data.user.fullName)
@@ -64,9 +64,9 @@ const Login = () => {
                     <img src="/qora.png" alt="" className="w-[50px] h-[50px]" />
                 </NavLink>
                 <div className="login max-w-[500px] w-full mx-auto p-10 flex flex-col items-center relative shadow-2xl rounded-lg">
-                    <h4 className="text-xl font-semibold mb-2 z-10">Welcome Back!</h4>
+                    <h4 className="text-xl font-semibold mb-2 z-10">Chào mừng trở lại!</h4>
                     <p className="mb-5 text-sm font-medium z-10">
-                        Don't have an account?{" "}
+                        Bạn chưa có tài khoản?{" "}
                         <NavLink to={"/signup"} className="sm:text-primary text-error">
                             Sign Up
                         </NavLink>

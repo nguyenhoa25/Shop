@@ -62,7 +62,7 @@ const HomePage = () => {
             </div>
             <div className="container mx-auto px-5">
                 <div className="relative sm:mb-10 mb-[80px]">
-                    <Heading>Popular Products</Heading>
+                    <Heading>Cửa hàng sản phẩm</Heading>
                     <Slider {...settings} className="slider-product-home">
                         {products.length &&
                             products
@@ -93,34 +93,33 @@ const HomePage = () => {
                 </div>
                 <div>
                     <h3 className="font-bold lg:text-[35px] md:text-[30px] text-[30px] mb-10 max-md:text-center">
-                        BEST FEATURE IN DEVICES
+                        Tính năng sản phẩm
                     </h3>
                     <div className="max-md:w-[95%] mx-auto flex flex-col gap-y-8">
                         <div className="flex gap-x-5 items-center">
                             <img src="/ranking.png" alt="" className="w-[40px] h-[40px]" />
                             <div className="flex flex-col gap-y-2">
-                                <h4 className="font-semibold">Best Quatity Mobliephone</h4>
+                                <h4 className="font-semibold">Chất lượng tốt nhất</h4>
                                 <p className="text-sm lg:w-[70%] w-full">
-                                    Is a popular phone line available globally with proven quality over time and development process.
+                                Là những dòng thiết bị phổ biến có mặt trên toàn cầu với chất lượng đã được kiểm chứng qua thời gian và quá trình phát triển.
                                 </p>
                             </div>
                         </div>
                         <div className="flex gap-x-5 items-center">
                             <img src="/clock.png" alt="" className="w-[40px] h-[40px]" />
                             <div className="flex flex-col gap-y-2">
-                                <h4 className="font-semibold">Long Lasting Mobliephone</h4>
+                                <h4 className="font-semibold">Bền bỉ chất lượng</h4>
                                 <p className="text-sm lg:w-[70%] w-full">
-                                    With excellent quality, the product is a durable device with time, keeping up with the trends of the times.
+                                Với chất lượng tuyệt hảo, sản phẩm là thiết bị bền bỉ với thời gian, bắt kịp xu hướng của thời đại.
                                 </p>
                             </div>
                         </div>
                         <div className="flex gap-x-5 items-center">
                             <img src="/money.png" alt="" className="w-[40px] h-[40px]" />
                             <div className="flex flex-col gap-y-2">
-                                <h4 className="font-semibold">Best Quality Price</h4>
+                                <h4 className="font-semibold">Giá cả tốt nhất</h4>
                                 <p className="text-sm lg:w-[70%] w-full">
-                                    Lorem ipsum dolor sit, amet consectetur
-                                    adipisicing elit. Sedquis mollitia, consequatur iste officia
+                                    Với giá cả phù hợp, khác hàng có thể dễ dàng chọn lựa các sản phẩm mà bản thân thấy ưng ý là yêu tích
                                 </p>
                             </div>
                         </div>
